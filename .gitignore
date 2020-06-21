@@ -1,5 +1,6 @@
 .idea
 .vscode
 .sass-cache
+.nyc_output
 node_modules
 *.iml
