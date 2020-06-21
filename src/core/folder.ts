@@ -1,5 +1,5 @@
-import nodePath from "path";
-import fs from "fs-extra";
+import * as nodePath from "path";
+import * as fs from "fs-extra";
 import { pathExists } from "./path";
 import { logInfo, logWarning } from "./log";
 

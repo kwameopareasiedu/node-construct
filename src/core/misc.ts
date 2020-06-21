@@ -1,4 +1,4 @@
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { camelCase } from "lodash";
 import { pathExists, resolvePath } from "./path";
 import { FolderContent, readFolder } from "./folder";

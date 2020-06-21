@@ -1,5 +1,5 @@
-import ejs from "ejs";
-import fs from "fs-extra";
+import * as ejs from "ejs";
+import * as fs from "fs-extra";
 import { logInfo } from "./log";
 
 export const createFile = (path: string): void => {

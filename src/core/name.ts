@@ -1,5 +1,5 @@
 import { camelCase } from "lodash";
-import pluralize from "pluralize";
+import * as pluralize from "pluralize";
 
 /** Returns a hyphenated camel-cased version of a string. E.g. "hello world" => "Hello-World" */
 export const toHyphenatedCamelCase = (str: string): string => {

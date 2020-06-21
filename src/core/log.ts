@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import * as chalk from "chalk";
 const consoleLog = console.log;
 
 export const logInfo = (message: string): void => consoleLog(chalk.cyan(message));
