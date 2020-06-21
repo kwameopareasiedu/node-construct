@@ -5,7 +5,9 @@ import * as pluralize from "pluralize";
 export const toHyphenatedCamelCase = (str: string): string => {
     return str.split("").reduce((word, char) => {
         if (char.toLowerCase() == char) return word + char.trim();
-        return word + (word ? "-" : "") + char.trim().toUpperCase();
+        // If char is a capital letter and the preceding char is also a capital letter, just concatenate the word and this char
+        if (word && word.slice(-1).toLowerCase() !== word.slice(-1)) return word + char;
+        return word + (word ? "-" : "") + char;
     }, "");
 };
 

@@ -2,6 +2,7 @@ const { assert } = require("chai");
 const { createFolder, readFolder } = require("../dist/core/folder");
 const { destroy, resolvePath, pathExists } = require("../dist/core/path");
 const { createFile, writeFile, readFile, renderFile } = require("../dist/core/file");
+const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFileNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
 
 describe("Unit tests for core files", () => {
     const testRoot = resolvePath("testing-area/core");
@@ -48,5 +49,25 @@ describe("Unit tests for core files", () => {
 
         const parsedContent = renderFile(filePath, { name: "John Doe" });
         assert.equal(parsedContent, "Hello world John Doe!");
+    });
+
+    it("should convert a name to hyphenated camel-case", () => {
+        assert.equal("Application-Log", toHyphenatedCamelCase("ApplicationLog"));
+        assert.equal("Application-FAQ", toHyphenatedCamelCase("ApplicationFAQ"));
+    });
+
+    it("generate a model's name from a string", () => {
+        assert.equal("ApplicationLog", generateModelNameFrom("ApplicationLog"));
+        assert.equal("ApplicationFaq", generateModelNameFrom("ApplicationFAQ"));
+    });
+
+    it("generate a model's file name from a string", () => {
+        assert.equal("application-log.js", generateModelFileNameFrom("ApplicationLOG"));
+        assert.equal("application-faq.js", generateModelFileNameFrom("ApplicationFAQ"));
+    });
+
+    it("generate a model's database table name from a string", () => {
+        assert.equal("application_logs", generateDatabaseTableNameFrom("ApplicationLog"));
+        assert.equal("application_faqs", generateDatabaseTableNameFrom("ApplicationFAQ"));
     });
 });
