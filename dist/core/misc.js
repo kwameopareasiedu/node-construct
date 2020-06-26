@@ -36,18 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateDBServiceIndex = exports.readModelDefinitions = void 0;
-var prettier = require("prettier");
-var lodash_1 = require("lodash");
+exports.readModelDefinitions = void 0;
+var path = require("path");
 var path_1 = require("./path");
-var folder_1 = require("./folder");
-var file_1 = require("./file");
-exports.readModelDefinitions = function () { return __awaiter(void 0, void 0, void 0, function () {
+exports.readModelDefinitions = function (root) { return __awaiter(void 0, void 0, void 0, function () {
     var modelDefinitionsPath;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                modelDefinitionsPath = path_1.resolvePath("model-definitions.js");
+                modelDefinitionsPath = path.resolve(root, "model-definitions.js");
                 if (!path_1.pathExists(modelDefinitionsPath))
                     throw new Error("Cannot find 'model-definitions.js' config file. Run 'agile-model init' first");
                 return [4 /*yield*/, Promise.resolve().then(function () { return require(modelDefinitionsPath); })];
@@ -55,24 +52,24 @@ exports.readModelDefinitions = function () { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-exports.updateDBServiceIndex = function (dbServicePath) {
-    dbServicePath = path_1.resolvePath(dbServicePath);
-    var modelFolders = folder_1.readFolder(dbServicePath, folder_1.FolderContent.FOLDER);
-    var modelNames = modelFolders.map(function (folder) { return lodash_1.camelCase(folder) + ","; });
-    var modelFolderImportStrings = modelFolders.map(function (folder) { return "const " + lodash_1.camelCase(folder) + " = require(\"./" + folder + "\");"; });
-    var content = prettier.format(modelFolderImportStrings.join("\n") + "\\n module.exports = {\\n " + modelNames.join("\n") + " };", {
-        parser: "babel",
-        printWidth: 150,
-        useTabs: true,
-        tabWidth: 4,
-        semi: true,
-        singleQuote: false,
-        bracketSpacing: true,
-        trailingComma: "none"
-    });
-    file_1.createFile(dbServicePath + "/index.js");
-    file_1.writeFile(dbServicePath + "/index.js", content);
-};
+// export const updateDBServiceIndex = (dbServicePath: string): void => {
+//     dbServicePath = resolvePath(dbServicePath);
+//     const modelFolders = readFolder(dbServicePath, FolderContent.FOLDER);
+//     const modelNames = modelFolders.map(folder => `${camelCase(folder)},`);
+//     const modelFolderImportStrings = modelFolders.map(folder => `const ${camelCase(folder)} = require("./${folder}");`);
+//     const content = prettier.format(`${modelFolderImportStrings.join("\n")}\\n module.exports = {\\n ${modelNames.join("\n")} };`, {
+//         parser: "babel",
+//         printWidth: 150,
+//         useTabs: true,
+//         tabWidth: 4,
+//         semi: true,
+//         singleQuote: false,
+//         bracketSpacing: true,
+//         trailingComma: "none"
+//     });
+//     createFile(dbServicePath + "/index.js");
+//     writeFile(dbServicePath + "/index.js", content);
+// };
 // function searchCodeTree(rootNode, type, evalFn, depth = 0) {
 //     if (!rootNode) return [];
 //

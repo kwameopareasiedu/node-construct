@@ -1,33 +1,30 @@
-import * as prettier from "prettier";
-import { camelCase } from "lodash";
-import { pathExists, resolvePath } from "./path";
-import { FolderContent, readFolder } from "./folder";
-import { createFile, writeFile } from "./file";
+import * as path from "path";
+import { pathExists } from "./path";
 
-export const readModelDefinitions = async (): Promise<any> => {
-    const modelDefinitionsPath = resolvePath("model-definitions.js");
+export const readModelDefinitions = async (root: string): Promise<{ models: Array<string>, relations: "" }> => {
+    const modelDefinitionsPath = path.resolve(root, "model-definitions.js");
     if (!pathExists(modelDefinitionsPath)) throw new Error("Cannot find 'model-definitions.js' config file. Run 'agile-model init' first");
     return await import(modelDefinitionsPath);
 };
 
-export const updateDBServiceIndex = (dbServicePath: string): void => {
-    dbServicePath = resolvePath(dbServicePath);
-    const modelFolders = readFolder(dbServicePath, FolderContent.FOLDER);
-    const modelNames = modelFolders.map(folder => `${camelCase(folder)},`);
-    const modelFolderImportStrings = modelFolders.map(folder => `const ${camelCase(folder)} = require("./${folder}");`);
-    const content = prettier.format(`${modelFolderImportStrings.join("\n")}\\n module.exports = {\\n ${modelNames.join("\n")} };`, {
-        parser: "babel",
-        printWidth: 150,
-        useTabs: true,
-        tabWidth: 4,
-        semi: true,
-        singleQuote: false,
-        bracketSpacing: true,
-        trailingComma: "none"
-    });
-    createFile(dbServicePath + "/index.js");
-    writeFile(dbServicePath + "/index.js", content);
-};
+// export const updateDBServiceIndex = (dbServicePath: string): void => {
+//     dbServicePath = resolvePath(dbServicePath);
+//     const modelFolders = readFolder(dbServicePath, FolderContent.FOLDER);
+//     const modelNames = modelFolders.map(folder => `${camelCase(folder)},`);
+//     const modelFolderImportStrings = modelFolders.map(folder => `const ${camelCase(folder)} = require("./${folder}");`);
+//     const content = prettier.format(`${modelFolderImportStrings.join("\n")}\\n module.exports = {\\n ${modelNames.join("\n")} };`, {
+//         parser: "babel",
+//         printWidth: 150,
+//         useTabs: true,
+//         tabWidth: 4,
+//         semi: true,
+//         singleQuote: false,
+//         bracketSpacing: true,
+//         trailingComma: "none"
+//     });
+//     createFile(dbServicePath + "/index.js");
+//     writeFile(dbServicePath + "/index.js", content);
+// };
 
 // function searchCodeTree(rootNode, type, evalFn, depth = 0) {
 //     if (!rootNode) return [];
