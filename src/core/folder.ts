@@ -1,5 +1,5 @@
-import * as nodePath from "path";
 import * as fs from "fs-extra";
+import * as nodePath from "path";
 import { pathExists } from "./path";
 import { logInfo, logWarning } from "./log";
 
@@ -10,7 +10,8 @@ export enum FolderContent {
 }
 
 export const createFolder = (path: string): void => {
-    fs.ensureDirSync(path);
+    if (pathExists(path)) return;
+    fs.mkdirSync(path, { recursive: true });
     logInfo(`Folder created - ${path}`);
 };
 

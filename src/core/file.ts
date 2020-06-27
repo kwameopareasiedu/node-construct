@@ -14,4 +14,4 @@ export const writeFile = (path: string, data: string): void => {
     logInfo(`File written - ${path}`);
 };
 
-export const renderFile = (path: string, params = {}): string => ejs.render(readFile(path), params);
+export const renderTemplate = (path: string, params = {}): string => ejs.render(readFile(path), params);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderFile = exports.writeFile = exports.readFile = exports.createFile = void 0;
+exports.renderTemplate = exports.writeFile = exports.readFile = exports.createFile = void 0;
 var ejs = require("ejs");
 var fs = require("fs-extra");
 var log_1 = require("./log");
@@ -13,7 +13,7 @@ exports.writeFile = function (path, data) {
     fs.writeFileSync(path, data || "");
     log_1.logInfo("File written - " + path);
 };
-exports.renderFile = function (path, params) {
+exports.renderTemplate = function (path, params) {
     if (params === void 0) { params = {}; }
     return ejs.render(exports.readFile(path), params);
 };

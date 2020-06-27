@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.readFolder = exports.createFolder = exports.FolderContent = void 0;
-var nodePath = require("path");
 var fs = require("fs-extra");
+var nodePath = require("path");
 var path_1 = require("./path");
 var log_1 = require("./log");
 var FolderContent;
@@ -12,7 +12,9 @@ var FolderContent;
     FolderContent[FolderContent["ALL"] = 2] = "ALL";
 })(FolderContent = exports.FolderContent || (exports.FolderContent = {}));
 exports.createFolder = function (path) {
-    fs.ensureDirSync(path);
+    if (path_1.pathExists(path))
+        return;
+    fs.mkdirSync(path, { recursive: true });
     log_1.logInfo("Folder created - " + path);
 };
 exports.readFolder = function (path, mode) {

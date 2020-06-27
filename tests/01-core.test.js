@@ -3,7 +3,7 @@ const { assert } = require("chai");
 const { destroy, pathExists } = require("../dist/core/path");
 const { createFolder, readFolder } = require("../dist/core/folder");
 const { logSuccess, logWarning, logInfo, logError } = require("../dist/core/log");
-const { createFile, writeFile, readFile, renderFile } = require("../dist/core/file");
+const { createFile, writeFile, readFile, renderTemplate } = require("../dist/core/file");
 const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFileNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
 
 describe("Unit tests for core files", () => {
@@ -47,7 +47,7 @@ describe("Unit tests for core files", () => {
         createFile(filePath);
         writeFile(filePath, "Hello world <%= name %>!");
 
-        const parsedContent = renderFile(filePath, { name: "John Doe" });
+        const parsedContent = renderTemplate(filePath, { name: "John Doe" });
         assert.equal(parsedContent, "Hello world John Doe!");
     });
 
