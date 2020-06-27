@@ -22,9 +22,12 @@ describe("Unit tests for init.ts", () => {
         assert.isNotNull(definitions);
         assert.isNotNull(definitions.models);
         assert.isNotNull(definitions.relations);
+        assert.isNotNull(definitions.dbRoot);
         assert.equal(Object.prototype.toString.call(definitions.models), "[object Array]");
         assert.equal(Object.prototype.toString.call(definitions.relations), "[object String]");
+        assert.equal(Object.prototype.toString.call(definitions.dbRoot), "[object String]");
         assert.equal(definitions.models.length, 0);
         assert.equal(definitions.relations, "");
+        assert.equal(definitions.dbRoot, "src/server/services/db");
     });
 });
