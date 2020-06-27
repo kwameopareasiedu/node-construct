@@ -43,12 +43,12 @@ var prettier_1 = require("prettier");
 var log_1 = require("../core/log");
 var path_1 = require("../core/path");
 var folder_1 = require("../core/folder");
-var misc_1 = require("../core/misc");
 var file_1 = require("../core/file");
+var misc_1 = require("../core/misc");
 var name_1 = require("../core/name");
 /** Creates a model file matching the given name with the appropriate code and database helper files */
 exports.generate = function (name, root) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, dbRoot, migrations, modelName, modelFileName, databaseTableName, modelFolderPath, modelFilePath, modelTemplatePath, modelTemplateContent, migrationTemplatePath, migrationTemplateContent, migrationFilePath;
+    var _a, dbRoot, migrations, modelName, modelFileName, databaseTableName, modelTemplatePath, modelTemplateContent, modelFolderPath, modelFilePath, migrationTemplatePath, migrationTemplateContent, migrationFilePath, crudTemplatePath, crudTemplateContent, crudFilePath;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
@@ -61,16 +61,23 @@ exports.generate = function (name, root) { return __awaiter(void 0, void 0, void
                 modelName = name_1.generateModelNameFrom(name);
                 modelFileName = name_1.generateModelFileNameFrom(name);
                 databaseTableName = name_1.generateDatabaseTableNameFrom(name);
-                modelFolderPath = path.resolve(root, dbRoot, modelFileName.replace(".js", ""));
-                modelFilePath = path.resolve(root, modelFolderPath, "index.js");
                 modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
                 modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: databaseTableName });
+                modelFolderPath = path.resolve(root, dbRoot, modelFileName.replace(".js", ""));
+                modelFilePath = path.resolve(modelFolderPath, "index.js");
                 folder_1.createFolder(modelFolderPath);
                 file_1.writeFile(modelFilePath, prettier_1.format(modelTemplateContent, misc_1.prettierConfig));
+                log_1.logSuccess("Model index file created!");
                 migrationTemplatePath = path.resolve(__dirname, "../../templates/migration.js.ejs");
                 migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, { databaseTableName: databaseTableName });
                 migrationFilePath = path.resolve(root, migrations, moment().format("YYYYMMDDHHmmssSSS") + "_create_" + databaseTableName + "_table.js");
                 file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
+                log_1.logSuccess("Migration file created!");
+                crudTemplatePath = path.resolve(__dirname, "../../templates/model-crud.js.ejs");
+                crudTemplateContent = file_1.renderTemplate(crudTemplatePath, { modelName: modelName });
+                crudFilePath = path.resolve(modelFolderPath, "crud.js");
+                file_1.writeFile(crudFilePath, prettier_1.format(crudTemplateContent, misc_1.prettierConfig));
+                log_1.logSuccess("Database helper files created!");
                 return [2 /*return*/];
         }
     });

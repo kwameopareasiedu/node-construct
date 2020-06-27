@@ -1,0 +1,34 @@
+// Basic Create Read Update Delete (DRUD) database helper functions
+
+const create = (args) => {
+    // The model is imported here to prevent a circular dependency
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().insert(args).returning("*").first();
+};
+
+const fetchAll = (graphRelation = "") => {
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().withGraphFetched(graphRelation);
+};
+
+const fetchById = (id, graphRelation = "") => {
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().where({ id }).withGraphFetched(graphRelation);
+};
+
+const fetchByUuid = (uuid, graphRelation = "") => {
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().where({ uuid }).withGraphFetched(graphRelation);
+};
+
+const edit = (uuid, args) => {
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().where({ uuid }).patch(args).returning("*").first();
+};
+
+const destroy = (uuid) => {
+    const <%= modelName %> = require("./index");
+    return <%= modelName %>.query().where({ uuid }).del();
+};
+
+module.exports = { create, fetchAll, fetchById, fetchByUuid, edit, destroy };
