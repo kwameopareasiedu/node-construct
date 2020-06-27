@@ -15,6 +15,9 @@ describe("Unit tests for generate.ts", () => {
     });
 
     it("should generate a model from a name", () => {
-        assert.doesNotThrow(async () => await generate("User", testRoot));
+        assert.doesNotThrow(async () => {
+            await generate("User", testRoot);
+            await generate("MovementVector", testRoot);
+        });
     });
 });

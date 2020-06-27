@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generate = void 0;
 var path = require("path");
+var prettier_1 = require("prettier");
 var log_1 = require("../core/log");
 var path_1 = require("../core/path");
 var folder_1 = require("../core/folder");
@@ -46,24 +47,40 @@ var file_1 = require("../core/file");
 var name_1 = require("../core/name");
 /** Creates a model file matching the given name with the appropriate code and database helper files */
 exports.generate = function (name, root) { return __awaiter(void 0, void 0, void 0, function () {
-    var dbRoot, modelName, fileName, tableName, folderPath, filePath;
+    var dbRoot, modelName, fileName, tableName, folderPath, filePath, modelTemplatePath, modelTemplateContent;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
             case 1:
                 dbRoot = (_a.sent()).dbRoot;
-                createObjectionConfigFile(root, dbRoot);
+                folder_1.createFolder(path.resolve(root, dbRoot));
+                ensureObjectionConfig(root, dbRoot);
+                ensureRootModel(root, dbRoot);
                 modelName = name_1.generateModelNameFrom(name);
                 fileName = name_1.generateModelFileNameFrom(name);
                 tableName = name_1.generateDatabaseTableNameFrom(name);
-                folderPath = path.resolve(dbRoot, fileName);
-                filePath = path.resolve(folderPath, "index.js");
+                folderPath = path.resolve(root, dbRoot, fileName.replace(".js", ""));
+                filePath = path.resolve(root, folderPath, "index.js");
+                modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
+                modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: tableName });
+                folder_1.createFolder(folderPath);
+                file_1.writeFile(filePath, prettier_1.format(modelTemplateContent, {
+                    parser: "babel",
+                    printWidth: 150,
+                    trailingComma: "none",
+                    useTabs: false,
+                    tabWidth: 4,
+                    semi: true,
+                    singleQuote: false,
+                    jsxBracketSameLine: true,
+                    jsxSingleQuote: false,
+                    arrowParens: "avoid"
+                }));
                 return [2 /*return*/];
         }
     });
 }); };
-var createObjectionConfigFile = function (root, dbRoot) {
-    folder_1.createFolder(path.resolve(root, dbRoot));
+var ensureObjectionConfig = function (root, dbRoot) {
     var knexfilePath = path.resolve(root, "knexfile.js");
     var objectionPath = path.resolve(root, dbRoot, "config.js");
     var relativePathToKnexfile = path.relative(path.resolve(root, dbRoot), knexfilePath);
@@ -72,5 +89,13 @@ var createObjectionConfigFile = function (root, dbRoot) {
         var templateContent = file_1.renderTemplate(templatePath, { knexfilePath: relativePathToKnexfile });
         file_1.writeFile(objectionPath, templateContent);
         log_1.logSuccess("Objection config file created!");
+    }
+};
+var ensureRootModel = function (root, dbRoot) {
+    var rootModelPath = path.resolve(root, dbRoot, "root.js");
+    var templatePath = path.resolve(__dirname, "../../templates/root-model.js.ejs");
+    if (!path_1.pathExists(rootModelPath)) {
+        file_1.writeFile(rootModelPath, file_1.readFile(templatePath));
+        log_1.logSuccess("Root model created!");
     }
 };

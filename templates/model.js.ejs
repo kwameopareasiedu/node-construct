@@ -1,0 +1,13 @@
+const RootModel = require("../root");
+
+class <%= modelName %> extends RootModel {
+    static get tableName() {
+        return "<%= databaseTableName %>";
+    }
+
+    static get relationMappings() {
+        return {};
+    }
+}
+
+module.exports = <%= modelName %>;
