@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generate = void 0;
 var path = require("path");
+var moment = require("moment");
 var prettier_1 = require("prettier");
 var log_1 = require("../core/log");
 var path_1 = require("../core/path");
@@ -47,35 +48,29 @@ var file_1 = require("../core/file");
 var name_1 = require("../core/name");
 /** Creates a model file matching the given name with the appropriate code and database helper files */
 exports.generate = function (name, root) { return __awaiter(void 0, void 0, void 0, function () {
-    var dbRoot, modelName, fileName, tableName, folderPath, filePath, modelTemplatePath, modelTemplateContent;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, dbRoot, migrations, modelName, modelFileName, databaseTableName, modelFolderPath, modelFilePath, modelTemplatePath, modelTemplateContent, migrationTemplatePath, migrationTemplateContent, migrationFilePath;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
             case 1:
-                dbRoot = (_a.sent()).dbRoot;
+                _a = _b.sent(), dbRoot = _a.dbRoot, migrations = _a.migrations;
+                folder_1.createFolder(path.resolve(root, migrations));
                 folder_1.createFolder(path.resolve(root, dbRoot));
                 ensureObjectionConfig(root, dbRoot);
                 ensureRootModel(root, dbRoot);
                 modelName = name_1.generateModelNameFrom(name);
-                fileName = name_1.generateModelFileNameFrom(name);
-                tableName = name_1.generateDatabaseTableNameFrom(name);
-                folderPath = path.resolve(root, dbRoot, fileName.replace(".js", ""));
-                filePath = path.resolve(root, folderPath, "index.js");
+                modelFileName = name_1.generateModelFileNameFrom(name);
+                databaseTableName = name_1.generateDatabaseTableNameFrom(name);
+                modelFolderPath = path.resolve(root, dbRoot, modelFileName.replace(".js", ""));
+                modelFilePath = path.resolve(root, modelFolderPath, "index.js");
                 modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
-                modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: tableName });
-                folder_1.createFolder(folderPath);
-                file_1.writeFile(filePath, prettier_1.format(modelTemplateContent, {
-                    parser: "babel",
-                    printWidth: 150,
-                    trailingComma: "none",
-                    useTabs: false,
-                    tabWidth: 4,
-                    semi: true,
-                    singleQuote: false,
-                    jsxBracketSameLine: true,
-                    jsxSingleQuote: false,
-                    arrowParens: "avoid"
-                }));
+                modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: databaseTableName });
+                folder_1.createFolder(modelFolderPath);
+                file_1.writeFile(modelFilePath, prettier_1.format(modelTemplateContent, misc_1.prettierConfig));
+                migrationTemplatePath = path.resolve(__dirname, "../../templates/migration.js.ejs");
+                migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, { databaseTableName: databaseTableName });
+                migrationFilePath = path.resolve(root, migrations, moment().format("YYYYMMDDHHmmssSSS") + "_create_" + databaseTableName + "_table.js");
+                file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
                 return [2 /*return*/];
         }
     });

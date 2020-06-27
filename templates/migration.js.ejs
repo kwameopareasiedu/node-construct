@@ -1,0 +1,21 @@
+exports.up = function(knex) {
+    return knex.schema.createTable("<%= databaseTableName %>", table => {
+        table.increments();
+        table.string("uuid").notNullable().unique();
+
+        // Add additional table columns (See https://knexjs.org/#Schema for more)
+
+        // Examples:
+        // table.string("name").notNullable();
+        // table.integer("age").nullable();
+        // table.string("email").unique().notNullable();
+        // table.text("description");
+        // table.boolean("awesome").defaultTo(true);
+
+        table.timestamps(true, true);
+    });
+};
+
+exports.down = function(knex) {
+    return knex.schema.dropTable("<%= databaseTableName %>");
+};

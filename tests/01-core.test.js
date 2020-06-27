@@ -5,6 +5,7 @@ const { createFolder, readFolder } = require("../dist/core/folder");
 const { logSuccess, logWarning, logInfo, logError } = require("../dist/core/log");
 const { createFile, writeFile, readFile, renderTemplate } = require("../dist/core/file");
 const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFileNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
+const { prettierConfig } = require("../dist/core/misc");
 
 describe("Unit tests for core files", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/core");
@@ -49,6 +50,19 @@ describe("Unit tests for core files", () => {
 
         const parsedContent = renderTemplate(filePath, { name: "John Doe" });
         assert.equal(parsedContent, "Hello world John Doe!");
+    });
+
+    it("should ensure prettier settings are correct", () => {
+        assert.equal("babel", prettierConfig.parser);
+        assert.equal(150, prettierConfig.printWidth);
+        assert.equal("none", prettierConfig.trailingComma);
+        assert.equal(false, prettierConfig.useTabs);
+        assert.equal(4, prettierConfig.tabWidth);
+        assert.equal(true, prettierConfig.semi);
+        assert.equal(false, prettierConfig.singleQuote);
+        assert.equal(true, prettierConfig.jsxBracketSameLine);
+        assert.equal(false, prettierConfig.jsxSingleQuote);
+        assert.equal("avoid", prettierConfig.arrowParens);
     });
 
     it("should convert a name to hyphenated camel-case", () => {

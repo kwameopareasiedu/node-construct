@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readModelDefinitions = void 0;
+exports.prettierConfig = exports.readModelDefinitions = void 0;
 var path = require("path");
 var path_1 = require("./path");
 exports.readModelDefinitions = function (root) { return __awaiter(void 0, void 0, void 0, function () {
@@ -52,6 +52,18 @@ exports.readModelDefinitions = function (root) { return __awaiter(void 0, void 0
         }
     });
 }); };
+exports.prettierConfig = {
+    parser: "babel",
+    printWidth: 150,
+    trailingComma: "none",
+    useTabs: false,
+    tabWidth: 4,
+    semi: true,
+    singleQuote: false,
+    jsxBracketSameLine: true,
+    jsxSingleQuote: false,
+    arrowParens: "avoid"
+};
 // export const updateDBServiceIndex = (dbServicePath: string): void => {
 //     dbServicePath = resolvePath(dbServicePath);
 //     const modelFolders = readFolder(dbServicePath, FolderContent.FOLDER);
