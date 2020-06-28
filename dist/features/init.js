@@ -8,5 +8,5 @@ var file_1 = require("../core/file");
 exports.init = function (root) {
     var targetPath = path.resolve(root, "model-definitions.js");
     file_1.writeFile(targetPath, file_1.readFile(path.resolve(__dirname, "../../templates/model-definitions.js.ejs")));
-    log_1.logSuccess("Model definitions file created!");
+    log_1.logSuccess("Model definitions file created!\n");
 };

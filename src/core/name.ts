@@ -17,8 +17,8 @@ export const generateModelNameFrom = (name: string): string => {
     return n[0].toUpperCase() + camelCase(n).substring(1);
 };
 
-/** Generates a file name for the model */
-export const generateModelFileNameFrom = (name: string): string => pluralize.singular(toHyphenatedCamelCase(name)).toLowerCase() + ".js";
+/** Generates a folder name for the model */
+export const generateModelFolderNameFrom = (name: string): string => pluralize.singular(toHyphenatedCamelCase(name)).toLowerCase();
 
 /** Generates the database table name for this model */
 export const generateDatabaseTableNameFrom = (name: string): string => {

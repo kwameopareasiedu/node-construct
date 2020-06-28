@@ -4,7 +4,7 @@ const { destroy, pathExists } = require("../dist/core/path");
 const { createFolder, readFolder } = require("../dist/core/folder");
 const { logSuccess, logWarning, logInfo, logError } = require("../dist/core/log");
 const { createFile, writeFile, readFile, renderTemplate } = require("../dist/core/file");
-const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFileNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
+const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFolderNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
 const { prettierConfig } = require("../dist/core/misc");
 
 describe("Unit tests for core files", () => {
@@ -75,9 +75,9 @@ describe("Unit tests for core files", () => {
         assert.equal("ApplicationFaq", generateModelNameFrom("ApplicationFAQ"));
     });
 
-    it("should generate a model's file name from a string", () => {
-        assert.equal("application-log.js", generateModelFileNameFrom("ApplicationLOG"));
-        assert.equal("application-faq.js", generateModelFileNameFrom("ApplicationFAQ"));
+    it("should generate a model's folder name from a string", () => {
+        assert.equal("application-log", generateModelFolderNameFrom("ApplicationLOG"));
+        assert.equal("application-faq", generateModelFolderNameFrom("ApplicationFAQ"));
     });
 
     it("should generate a model's database table name from a string", () => {

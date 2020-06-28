@@ -50,7 +50,7 @@ var folder_1 = require("../core/folder");
 var name_1 = require("../core/name");
 /** Creates a model file matching the given name with the appropriate code and database helper files */
 exports.generate = function (name, root) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, dbRoot, migrations, modelName, modelFileName, databaseTableName, modelTemplatePath, modelTemplateContent, modelFolderPath, modelFilePath, migrationTemplatePath, migrationTemplateContent, migrationFilePath, crudTemplatePath, crudTemplateContent, crudFilePath;
+    var _a, dbRoot, migrations, modelName, modelFolderName, databaseTableName, modelTemplatePath, modelTemplateContent, modelFolderPath, modelFilePath, migrationTemplatePath, migrationTemplateContent, migrationFilePath, crudTemplatePath, crudTemplateContent, crudFilePath;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
@@ -61,27 +61,25 @@ exports.generate = function (name, root) { return __awaiter(void 0, void 0, void
                 ensureObjectionConfig(root, dbRoot);
                 ensureRootModel(root, dbRoot);
                 modelName = name_1.generateModelNameFrom(name);
-                modelFileName = name_1.generateModelFileNameFrom(name);
+                modelFolderName = name_1.generateModelFolderNameFrom(name);
                 databaseTableName = name_1.generateDatabaseTableNameFrom(name);
                 modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
                 modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: databaseTableName });
-                modelFolderPath = path.resolve(root, dbRoot, modelFileName.replace(".js", ""));
+                modelFolderPath = path.resolve(root, dbRoot, modelFolderName);
                 modelFilePath = path.resolve(modelFolderPath, "index.js");
                 folder_1.createFolder(modelFolderPath);
                 file_1.writeFile(modelFilePath, prettier_1.format(modelTemplateContent, misc_1.prettierConfig));
-                log_1.logSuccess("Model index file created!");
-                migrationTemplatePath = path.resolve(__dirname, "../../templates/migration.js.ejs");
+                migrationTemplatePath = path.resolve(__dirname, "../../templates/model-migration.js.ejs");
                 migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, { databaseTableName: databaseTableName });
                 migrationFilePath = path.resolve(root, migrations, moment().format("YYYYMMDDHHmmssSSS") + "_create_" + databaseTableName + "_table.js");
                 file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
-                log_1.logSuccess("Migration file created!");
                 crudTemplatePath = path.resolve(__dirname, "../../templates/model-crud.js.ejs");
                 crudTemplateContent = file_1.renderTemplate(crudTemplatePath, { modelName: modelName });
                 crudFilePath = path.resolve(modelFolderPath, "crud.js");
                 file_1.writeFile(crudFilePath, prettier_1.format(crudTemplateContent, misc_1.prettierConfig));
-                log_1.logSuccess("Database helper files created!");
                 // Update the db root to include model
                 updateDBRootIndex(root, dbRoot);
+                log_1.logSuccess("Successfully generated " + modelName + " model and related files!\n");
                 return [2 /*return*/];
         }
     });
@@ -94,7 +92,7 @@ var ensureObjectionConfig = function (root, dbRoot) {
     if (!path_1.pathExists(objectionPath)) {
         var templateContent = file_1.renderTemplate(templatePath, { knexfilePath: relativePathToKnexfile });
         file_1.writeFile(objectionPath, templateContent);
-        log_1.logSuccess("Objection config file created!");
+        log_1.logSuccess("Objection config file created!\n");
     }
 };
 var ensureRootModel = function (root, dbRoot) {
@@ -102,7 +100,7 @@ var ensureRootModel = function (root, dbRoot) {
     var templatePath = path.resolve(__dirname, "../../templates/root-model.js.ejs");
     if (!path_1.pathExists(rootModelPath)) {
         file_1.writeFile(rootModelPath, file_1.readFile(templatePath));
-        log_1.logSuccess("Root model created!");
+        log_1.logSuccess("Root model created!\n");
     }
 };
 var updateDBRootIndex = function (root, dbRoot) {
@@ -145,5 +143,4 @@ var updateDBRootIndex = function (root, dbRoot) {
     };
     var dbRootIndexPath = path.resolve(root, dbRoot, "index.js");
     file_1.writeFile(dbRootIndexPath, prettier_1.format(recast_1.print(finalSyntaxTree).code, misc_1.prettierConfig));
-    log_1.logSuccess("Database index file updated!");
 };

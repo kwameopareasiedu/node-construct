@@ -8,7 +8,7 @@ import { pathExists } from "../core/path";
 import { readFile, renderTemplate, writeFile } from "../core/file";
 import { prettierConfig, readModelDefinitions } from "../core/misc";
 import { createFolder, FolderContent, readFolder } from "../core/folder";
-import { generateDatabaseTableNameFrom, generateModelFileNameFrom, generateModelNameFrom } from "../core/name";
+import { generateDatabaseTableNameFrom, generateModelFolderNameFrom, generateModelNameFrom } from "../core/name";
 
 /** Creates a model file matching the given name with the appropriate code and database helper files */
 export const generate = async (name: string, root: string): Promise<void> => {
@@ -20,34 +20,32 @@ export const generate = async (name: string, root: string): Promise<void> => {
     ensureRootModel(root, dbRoot);
 
     const modelName = generateModelNameFrom(name);
-    const modelFileName = generateModelFileNameFrom(name);
+    const modelFolderName = generateModelFolderNameFrom(name);
     const databaseTableName = generateDatabaseTableNameFrom(name);
 
     // Create the model folder and index file
     const modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
     const modelTemplateContent = renderTemplate(modelTemplatePath, { modelName, databaseTableName });
-    const modelFolderPath = path.resolve(root, dbRoot, modelFileName.replace(".js", ""));
+    const modelFolderPath = path.resolve(root, dbRoot, modelFolderName);
     const modelFilePath = path.resolve(modelFolderPath, "index.js");
     createFolder(modelFolderPath);
     writeFile(modelFilePath, format(modelTemplateContent, prettierConfig));
-    logSuccess("Model index file created!");
 
     // Create the migration file for the model
-    const migrationTemplatePath = path.resolve(__dirname, "../../templates/migration.js.ejs");
+    const migrationTemplatePath = path.resolve(__dirname, "../../templates/model-migration.js.ejs");
     const migrationTemplateContent = renderTemplate(migrationTemplatePath, { databaseTableName });
     const migrationFilePath = path.resolve(root, migrations, `${moment().format("YYYYMMDDHHmmssSSS")}_create_${databaseTableName}_table.js`);
     writeFile(migrationFilePath, format(migrationTemplateContent, prettierConfig));
-    logSuccess("Migration file created!");
 
     // Create database helper files
     const crudTemplatePath = path.resolve(__dirname, "../../templates/model-crud.js.ejs");
     const crudTemplateContent = renderTemplate(crudTemplatePath, { modelName });
     const crudFilePath = path.resolve(modelFolderPath, "crud.js");
     writeFile(crudFilePath, format(crudTemplateContent, prettierConfig));
-    logSuccess("Database helper files created!");
 
     // Update the db root to include model
     updateDBRootIndex(root, dbRoot);
+    logSuccess(`Successfully generated ${modelName} model and related files!\n`);
 };
 
 const ensureObjectionConfig = (root: string, dbRoot: string): void => {
@@ -59,7 +57,7 @@ const ensureObjectionConfig = (root: string, dbRoot: string): void => {
     if (!pathExists(objectionPath)) {
         const templateContent = renderTemplate(templatePath, { knexfilePath: relativePathToKnexfile });
         writeFile(objectionPath, templateContent);
-        logSuccess("Objection config file created!");
+        logSuccess("Objection config file created!\n");
     }
 };
 
@@ -69,7 +67,7 @@ const ensureRootModel = (root: string, dbRoot: string): void => {
 
     if (!pathExists(rootModelPath)) {
         writeFile(rootModelPath, readFile(templatePath));
-        logSuccess("Root model created!");
+        logSuccess("Root model created!\n");
     }
 };
 
@@ -116,5 +114,4 @@ const updateDBRootIndex = (root: string, dbRoot: string): void => {
 
     const dbRootIndexPath = path.resolve(root, dbRoot, "index.js");
     writeFile(dbRootIndexPath, format(print(finalSyntaxTree).code, prettierConfig));
-    logSuccess("Database index file updated!");
 };
