@@ -1,11 +1,13 @@
 import * as path from "path";
+import { print } from "recast";
 import * as moment from "moment";
 import { format } from "prettier";
+import { camelCase } from "lodash";
 import { logSuccess } from "../core/log";
 import { pathExists } from "../core/path";
-import { createFolder } from "../core/folder";
-import { writeFile, renderTemplate, readFile } from "../core/file";
+import { readFile, renderTemplate, writeFile } from "../core/file";
 import { prettierConfig, readModelDefinitions } from "../core/misc";
+import { createFolder, FolderContent, readFolder } from "../core/folder";
 import { generateDatabaseTableNameFrom, generateModelFileNameFrom, generateModelNameFrom } from "../core/name";
 
 /** Creates a model file matching the given name with the appropriate code and database helper files */
@@ -43,6 +45,9 @@ export const generate = async (name: string, root: string): Promise<void> => {
     const crudFilePath = path.resolve(modelFolderPath, "crud.js");
     writeFile(crudFilePath, format(crudTemplateContent, prettierConfig));
     logSuccess("Database helper files created!");
+
+    // Update the db root to include model
+    updateDBRootIndex(root, dbRoot);
 };
 
 const ensureObjectionConfig = (root: string, dbRoot: string): void => {
@@ -66,4 +71,50 @@ const ensureRootModel = (root: string, dbRoot: string): void => {
         writeFile(rootModelPath, readFile(templatePath));
         logSuccess("Root model created!");
     }
+};
+
+const updateDBRootIndex = (root: string, dbRoot: string): void => {
+    const dbRootFolders = readFolder(path.resolve(root, dbRoot), FolderContent.FOLDER);
+
+    const syntaxTreeObjectExpressionProperties = dbRootFolders.map(folder => ({
+        type: "Property",
+        method: false,
+        shorthand: false,
+        computed: false,
+        key: { type: "Identifier", name: camelCase(folder) },
+        value: {
+            type: "CallExpression",
+            callee: { type: "Identifier", name: "require" },
+            arguments: [{ type: "Literal", value: folder, raw: `"${folder}"` }]
+        },
+        kind: "init"
+    }));
+
+    const finalSyntaxTree = {
+        type: "Program",
+        body: [
+            {
+                type: "ExpressionStatement",
+                expression: {
+                    type: "AssignmentExpression",
+                    operator: "=",
+                    left: {
+                        type: "MemberExpression",
+                        object: { type: "Identifier", name: "module" },
+                        property: { type: "Identifier", name: "exports" },
+                        computed: false
+                    },
+                    right: {
+                        type: "ObjectExpression",
+                        properties: syntaxTreeObjectExpressionProperties
+                    }
+                }
+            }
+        ],
+        sourceType: "module"
+    };
+
+    const dbRootIndexPath = path.resolve(root, dbRoot, "index.js");
+    writeFile(dbRootIndexPath, format(print(finalSyntaxTree).code, prettierConfig));
+    logSuccess("Database index file updated!");
 };
