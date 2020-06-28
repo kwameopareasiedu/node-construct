@@ -1,13 +1,13 @@
 import * as path from "path";
+import * as moment from "moment";
 import { format } from "prettier";
 import { singular } from "pluralize";
 import { parse, print } from "recast";
 import { logSuccess } from "../core/log";
 import { pathExists } from "../core/path";
+import { prettierConfig } from "../core/misc";
 import { readFile, renderTemplate, writeFile } from "../core/file";
-import { prettierConfig, readModelDefinitions } from "../core/misc";
 import { generateDatabaseTableNameFrom, generateModelFolderNameFrom, generateModelNameFrom } from "../core/name";
-import * as moment from "moment";
 
 export enum RelationType {
     HAS_ONE,
@@ -16,9 +16,15 @@ export enum RelationType {
 }
 
 /** Modifies source codes of target models to create relations between them */
-export const link = async (root: string, source: string, target: string, relation: RelationType): Promise<void> => {
+export const link = async (
+    root: string,
+    dbRoot: string,
+    migrationsRoot: string,
+    source: string,
+    target: string,
+    relation: RelationType
+): Promise<void> => {
     // Verify that source and target are valid models in project
-    const { dbRoot, migrations } = await readModelDefinitions(root);
     const sourceModelFolderName = generateModelFolderNameFrom(source);
     const targetModelFolderName = generateModelFolderNameFrom(target);
 
@@ -91,7 +97,7 @@ export const link = async (root: string, source: string, target: string, relatio
         const timestamp = moment().format("YYYYMMDDHHmmssSSS");
         const table = sourceLinksToTarget ? targetDatabaseTableName : sourceDatabaseTableName;
         const column = `${singular(generateDatabaseTableNameFrom(sourceLinksToTarget ? source : target))}_id`;
-        return path.resolve(root, migrations, `${timestamp}_add_${column}_to_${table}_table.js`);
+        return path.resolve(root, migrationsRoot, `${timestamp}_add_${column}_to_${table}_table.js`);
     })();
 
     writeFile(migrationFilePath, format(migrationTemplateContent, prettierConfig));

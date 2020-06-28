@@ -1,6 +1,5 @@
 module.exports = {
-	models: [], // Eg. ["User", "Account", "Post", "Comment"]
-    relations: "", // Eg. "User HAS_ONE Account, User HAS_MANY [Post Comment], Post HAS_MANY Comment"
     dbRoot: "src/server/services/db", // The path to the database service folder. This is where all models and related database helper files will be created,
-    migrations: "src/server/migrations", // The path to the database migrations folder
+    migrationsRoot: "src/server/migrations", // The path to the database migrations folder,
+    relations: [], // Eg. ["User HAS_ONE Account", "User HAS_MANY [Post Comment]", "Post HAS_MANY Comment"]
 };

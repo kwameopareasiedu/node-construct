@@ -38,15 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.link = exports.RelationType = void 0;
 var path = require("path");
+var moment = require("moment");
 var prettier_1 = require("prettier");
 var pluralize_1 = require("pluralize");
 var recast_1 = require("recast");
 var log_1 = require("../core/log");
 var path_1 = require("../core/path");
-var file_1 = require("../core/file");
 var misc_1 = require("../core/misc");
+var file_1 = require("../core/file");
 var name_1 = require("../core/name");
-var moment = require("moment");
 var RelationType;
 (function (RelationType) {
     RelationType[RelationType["HAS_ONE"] = 0] = "HAS_ONE";
@@ -54,76 +54,71 @@ var RelationType;
     RelationType[RelationType["BELONGS_TO_ONE"] = 2] = "BELONGS_TO_ONE";
 })(RelationType = exports.RelationType || (exports.RelationType = {}));
 /** Modifies source codes of target models to create relations between them */
-exports.link = function (root, source, target, relation) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, dbRoot, migrations, sourceModelFolderName, targetModelFolderName, relationAST, sourceModelName, sourceModelPath, sourceModelAST, sourceModelClassDeclarationSubTree, sourceModelRelationMappingsMethodDeclarationSubTree, sourceModelRelationMappingsReturnStatementSubTree, reverseRelationAST, targetModelName, targetModelPath, targetModelAST, targetModelClassDeclarationSubTree, targetModelRelationMappingsMethodDeclarationSubTree, targetModelRelationMappingsReturnStatementSubTree, sourceDatabaseTableName, targetDatabaseTableName, sourceLinksToTarget, migrationTemplatePath, migrationTemplateContent, migrationFilePath;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
-            case 1:
-                _a = _b.sent(), dbRoot = _a.dbRoot, migrations = _a.migrations;
-                sourceModelFolderName = name_1.generateModelFolderNameFrom(source);
-                targetModelFolderName = name_1.generateModelFolderNameFrom(target);
-                if (!path_1.pathExists(path.resolve(root, dbRoot, sourceModelFolderName)))
-                    throw new Error(source + " is not a valid model in the project");
-                if (!path_1.pathExists(path.resolve(root, dbRoot, targetModelFolderName)))
-                    throw new Error(target + " is not a valid model in the project");
-                relationAST = (function () {
-                    if (relation === RelationType.HAS_ONE)
-                        return generateASTForHasOneRelation(source, target);
-                    else if (relation === RelationType.HAS_MANY)
-                        return generateASTForHasManyRelation(source, target);
-                    else if (relation === RelationType.BELONGS_TO_ONE)
-                        return generateASTForBelongsToOneRelation(source, target);
-                    else
-                        throw new Error("Invalid relation type");
-                })();
-                sourceModelName = name_1.generateModelNameFrom(source);
-                sourceModelPath = path.resolve(root, dbRoot, sourceModelFolderName, "index.js");
-                sourceModelAST = recast_1.parse(file_1.readFile(sourceModelPath));
-                sourceModelClassDeclarationSubTree = sourceModelAST.program.body.filter(function (subTree) { return subTree.type === "ClassDeclaration" && subTree.id.name === sourceModelName; })[0];
-                sourceModelRelationMappingsMethodDeclarationSubTree = sourceModelClassDeclarationSubTree.body.body.filter(function (subTree) { return subTree.type === "MethodDefinition" && subTree.key.name === "relationMappings"; })[0];
-                sourceModelRelationMappingsReturnStatementSubTree = sourceModelRelationMappingsMethodDeclarationSubTree.value.body.body.filter(function (subTree) { return subTree.type === "ReturnStatement"; })[0];
-                sourceModelRelationMappingsReturnStatementSubTree.argument.properties.push(relationAST);
-                file_1.writeFile(sourceModelPath, prettier_1.format(recast_1.print(sourceModelAST).code, misc_1.prettierConfig));
-                reverseRelationAST = (function () {
-                    if (relation === RelationType.HAS_ONE)
-                        return generateASTForBelongsToOneRelation(target, source);
-                    else if (relation === RelationType.HAS_MANY)
-                        return generateASTForBelongsToOneRelation(target, source);
-                    else if (relation === RelationType.BELONGS_TO_ONE)
-                        return generateASTForHasManyRelation(target, source);
-                    else
-                        throw new Error("Invalid relation type");
-                })();
-                targetModelName = name_1.generateModelNameFrom(target);
-                targetModelPath = path.resolve(root, dbRoot, targetModelFolderName, "index.js");
-                targetModelAST = recast_1.parse(file_1.readFile(targetModelPath));
-                targetModelClassDeclarationSubTree = targetModelAST.program.body.filter(function (subTree) { return subTree.type === "ClassDeclaration" && subTree.id.name === targetModelName; })[0];
-                targetModelRelationMappingsMethodDeclarationSubTree = targetModelClassDeclarationSubTree.body.body.filter(function (subTree) { return subTree.type === "MethodDefinition" && subTree.key.name === "relationMappings"; })[0];
-                targetModelRelationMappingsReturnStatementSubTree = targetModelRelationMappingsMethodDeclarationSubTree.value.body.body.filter(function (subTree) { return subTree.type === "ReturnStatement"; })[0];
-                targetModelRelationMappingsReturnStatementSubTree.argument.properties.push(reverseRelationAST);
-                file_1.writeFile(targetModelPath, prettier_1.format(recast_1.print(targetModelAST).code, misc_1.prettierConfig));
-                sourceDatabaseTableName = name_1.generateDatabaseTableNameFrom(source);
-                targetDatabaseTableName = name_1.generateDatabaseTableNameFrom(target);
-                sourceLinksToTarget = [RelationType.HAS_ONE, RelationType.HAS_MANY].includes(relation);
-                migrationTemplatePath = path.resolve(__dirname, "../../templates/relation-migration.js.ejs");
-                migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, {
-                    sourceModelName: sourceLinksToTarget ? sourceModelName : targetModelName,
-                    targetModelName: sourceLinksToTarget ? targetModelName : sourceModelName,
-                    sourceDatabaseTableName: sourceLinksToTarget ? sourceDatabaseTableName : targetDatabaseTableName,
-                    targetDatabaseTableName: sourceLinksToTarget ? targetDatabaseTableName : sourceDatabaseTableName,
-                    targetDatabaseTableColumn: pluralize_1.singular(name_1.generateDatabaseTableNameFrom(sourceLinksToTarget ? source : target)) + "_id"
-                });
-                migrationFilePath = (function () {
-                    var timestamp = moment().format("YYYYMMDDHHmmssSSS");
-                    var table = sourceLinksToTarget ? targetDatabaseTableName : sourceDatabaseTableName;
-                    var column = pluralize_1.singular(name_1.generateDatabaseTableNameFrom(sourceLinksToTarget ? source : target)) + "_id";
-                    return path.resolve(root, migrations, timestamp + "_add_" + column + "_to_" + table + "_table.js");
-                })();
-                file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
-                log_1.logSuccess("Successfully linked " + sourceModelName + " model to " + targetModelName + " model!\n");
-                return [2 /*return*/];
-        }
+exports.link = function (root, dbRoot, migrationsRoot, source, target, relation) { return __awaiter(void 0, void 0, void 0, function () {
+    var sourceModelFolderName, targetModelFolderName, relationAST, sourceModelName, sourceModelPath, sourceModelAST, sourceModelClassDeclarationSubTree, sourceModelRelationMappingsMethodDeclarationSubTree, sourceModelRelationMappingsReturnStatementSubTree, reverseRelationAST, targetModelName, targetModelPath, targetModelAST, targetModelClassDeclarationSubTree, targetModelRelationMappingsMethodDeclarationSubTree, targetModelRelationMappingsReturnStatementSubTree, sourceDatabaseTableName, targetDatabaseTableName, sourceLinksToTarget, migrationTemplatePath, migrationTemplateContent, migrationFilePath;
+    return __generator(this, function (_a) {
+        sourceModelFolderName = name_1.generateModelFolderNameFrom(source);
+        targetModelFolderName = name_1.generateModelFolderNameFrom(target);
+        if (!path_1.pathExists(path.resolve(root, dbRoot, sourceModelFolderName)))
+            throw new Error(source + " is not a valid model in the project");
+        if (!path_1.pathExists(path.resolve(root, dbRoot, targetModelFolderName)))
+            throw new Error(target + " is not a valid model in the project");
+        relationAST = (function () {
+            if (relation === RelationType.HAS_ONE)
+                return generateASTForHasOneRelation(source, target);
+            else if (relation === RelationType.HAS_MANY)
+                return generateASTForHasManyRelation(source, target);
+            else if (relation === RelationType.BELONGS_TO_ONE)
+                return generateASTForBelongsToOneRelation(source, target);
+            else
+                throw new Error("Invalid relation type");
+        })();
+        sourceModelName = name_1.generateModelNameFrom(source);
+        sourceModelPath = path.resolve(root, dbRoot, sourceModelFolderName, "index.js");
+        sourceModelAST = recast_1.parse(file_1.readFile(sourceModelPath));
+        sourceModelClassDeclarationSubTree = sourceModelAST.program.body.filter(function (subTree) { return subTree.type === "ClassDeclaration" && subTree.id.name === sourceModelName; })[0];
+        sourceModelRelationMappingsMethodDeclarationSubTree = sourceModelClassDeclarationSubTree.body.body.filter(function (subTree) { return subTree.type === "MethodDefinition" && subTree.key.name === "relationMappings"; })[0];
+        sourceModelRelationMappingsReturnStatementSubTree = sourceModelRelationMappingsMethodDeclarationSubTree.value.body.body.filter(function (subTree) { return subTree.type === "ReturnStatement"; })[0];
+        sourceModelRelationMappingsReturnStatementSubTree.argument.properties.push(relationAST);
+        file_1.writeFile(sourceModelPath, prettier_1.format(recast_1.print(sourceModelAST).code, misc_1.prettierConfig));
+        reverseRelationAST = (function () {
+            if (relation === RelationType.HAS_ONE)
+                return generateASTForBelongsToOneRelation(target, source);
+            else if (relation === RelationType.HAS_MANY)
+                return generateASTForBelongsToOneRelation(target, source);
+            else if (relation === RelationType.BELONGS_TO_ONE)
+                return generateASTForHasManyRelation(target, source);
+            else
+                throw new Error("Invalid relation type");
+        })();
+        targetModelName = name_1.generateModelNameFrom(target);
+        targetModelPath = path.resolve(root, dbRoot, targetModelFolderName, "index.js");
+        targetModelAST = recast_1.parse(file_1.readFile(targetModelPath));
+        targetModelClassDeclarationSubTree = targetModelAST.program.body.filter(function (subTree) { return subTree.type === "ClassDeclaration" && subTree.id.name === targetModelName; })[0];
+        targetModelRelationMappingsMethodDeclarationSubTree = targetModelClassDeclarationSubTree.body.body.filter(function (subTree) { return subTree.type === "MethodDefinition" && subTree.key.name === "relationMappings"; })[0];
+        targetModelRelationMappingsReturnStatementSubTree = targetModelRelationMappingsMethodDeclarationSubTree.value.body.body.filter(function (subTree) { return subTree.type === "ReturnStatement"; })[0];
+        targetModelRelationMappingsReturnStatementSubTree.argument.properties.push(reverseRelationAST);
+        file_1.writeFile(targetModelPath, prettier_1.format(recast_1.print(targetModelAST).code, misc_1.prettierConfig));
+        sourceDatabaseTableName = name_1.generateDatabaseTableNameFrom(source);
+        targetDatabaseTableName = name_1.generateDatabaseTableNameFrom(target);
+        sourceLinksToTarget = [RelationType.HAS_ONE, RelationType.HAS_MANY].includes(relation);
+        migrationTemplatePath = path.resolve(__dirname, "../../templates/relation-migration.js.ejs");
+        migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, {
+            sourceModelName: sourceLinksToTarget ? sourceModelName : targetModelName,
+            targetModelName: sourceLinksToTarget ? targetModelName : sourceModelName,
+            sourceDatabaseTableName: sourceLinksToTarget ? sourceDatabaseTableName : targetDatabaseTableName,
+            targetDatabaseTableName: sourceLinksToTarget ? targetDatabaseTableName : sourceDatabaseTableName,
+            targetDatabaseTableColumn: pluralize_1.singular(name_1.generateDatabaseTableNameFrom(sourceLinksToTarget ? source : target)) + "_id"
+        });
+        migrationFilePath = (function () {
+            var timestamp = moment().format("YYYYMMDDHHmmssSSS");
+            var table = sourceLinksToTarget ? targetDatabaseTableName : sourceDatabaseTableName;
+            var column = pluralize_1.singular(name_1.generateDatabaseTableNameFrom(sourceLinksToTarget ? source : target)) + "_id";
+            return path.resolve(root, migrationsRoot, timestamp + "_add_" + column + "_to_" + table + "_table.js");
+        })();
+        file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
+        log_1.logSuccess("Successfully linked " + sourceModelName + " model to " + targetModelName + " model!\n");
+        return [2 /*return*/];
     });
 }); };
 var generateASTForHasOneRelation = function (source, target) {

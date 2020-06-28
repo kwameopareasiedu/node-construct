@@ -44,44 +44,40 @@ var prettier_1 = require("prettier");
 var lodash_1 = require("lodash");
 var log_1 = require("../core/log");
 var path_1 = require("../core/path");
-var file_1 = require("../core/file");
 var misc_1 = require("../core/misc");
+var file_1 = require("../core/file");
 var folder_1 = require("../core/folder");
 var name_1 = require("../core/name");
 /** Creates a model file matching the given name with the appropriate code and database helper files */
-exports.generate = function (name, root) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, dbRoot, migrations, modelName, modelFolderName, databaseTableName, modelTemplatePath, modelTemplateContent, modelFolderPath, modelFilePath, migrationTemplatePath, migrationTemplateContent, migrationFilePath, crudTemplatePath, crudTemplateContent, crudFilePath;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, misc_1.readModelDefinitions(root)];
-            case 1:
-                _a = _b.sent(), dbRoot = _a.dbRoot, migrations = _a.migrations;
-                folder_1.createFolder(path.resolve(root, migrations));
-                folder_1.createFolder(path.resolve(root, dbRoot));
-                ensureObjectionConfig(root, dbRoot);
-                ensureRootModel(root, dbRoot);
-                modelName = name_1.generateModelNameFrom(name);
-                modelFolderName = name_1.generateModelFolderNameFrom(name);
-                databaseTableName = name_1.generateDatabaseTableNameFrom(name);
-                modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
-                modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: databaseTableName });
-                modelFolderPath = path.resolve(root, dbRoot, modelFolderName);
-                modelFilePath = path.resolve(modelFolderPath, "index.js");
-                folder_1.createFolder(modelFolderPath);
-                file_1.writeFile(modelFilePath, prettier_1.format(modelTemplateContent, misc_1.prettierConfig));
-                migrationTemplatePath = path.resolve(__dirname, "../../templates/model-migration.js.ejs");
-                migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, { databaseTableName: databaseTableName });
-                migrationFilePath = path.resolve(root, migrations, moment().format("YYYYMMDDHHmmssSSS") + "_create_" + databaseTableName + "_table.js");
-                file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
-                crudTemplatePath = path.resolve(__dirname, "../../templates/model-crud.js.ejs");
-                crudTemplateContent = file_1.renderTemplate(crudTemplatePath, { modelName: modelName });
-                crudFilePath = path.resolve(modelFolderPath, "crud.js");
-                file_1.writeFile(crudFilePath, prettier_1.format(crudTemplateContent, misc_1.prettierConfig));
-                // Update the db root to include model
-                updateDBRootIndex(root, dbRoot);
-                log_1.logSuccess("Successfully generated " + modelName + " model and related files!\n");
-                return [2 /*return*/];
-        }
+exports.generate = function (root, dbRoot, migrationsRoot, name) { return __awaiter(void 0, void 0, void 0, function () {
+    var modelName, modelFolderName, databaseTableName, modelTemplatePath, modelTemplateContent, modelFolderPath, modelFilePath, migrationTemplatePath, migrationTemplateContent, migrationFilePath, crudTemplatePath, crudTemplateContent, crudFilePath;
+    return __generator(this, function (_a) {
+        // Make sure the migrations folder and objection config and root model files exist
+        folder_1.createFolder(path.resolve(root, migrationsRoot));
+        folder_1.createFolder(path.resolve(root, dbRoot));
+        ensureObjectionConfig(root, dbRoot);
+        ensureRootModel(root, dbRoot);
+        modelName = name_1.generateModelNameFrom(name);
+        modelFolderName = name_1.generateModelFolderNameFrom(name);
+        databaseTableName = name_1.generateDatabaseTableNameFrom(name);
+        modelTemplatePath = path.resolve(__dirname, "../../templates/model.js.ejs");
+        modelTemplateContent = file_1.renderTemplate(modelTemplatePath, { modelName: modelName, databaseTableName: databaseTableName });
+        modelFolderPath = path.resolve(root, dbRoot, modelFolderName);
+        modelFilePath = path.resolve(modelFolderPath, "index.js");
+        folder_1.createFolder(modelFolderPath);
+        file_1.writeFile(modelFilePath, prettier_1.format(modelTemplateContent, misc_1.prettierConfig));
+        migrationTemplatePath = path.resolve(__dirname, "../../templates/model-migration.js.ejs");
+        migrationTemplateContent = file_1.renderTemplate(migrationTemplatePath, { databaseTableName: databaseTableName });
+        migrationFilePath = path.resolve(root, migrationsRoot, moment().format("YYYYMMDDHHmmssSSS") + "_create_" + databaseTableName + "_table.js");
+        file_1.writeFile(migrationFilePath, prettier_1.format(migrationTemplateContent, misc_1.prettierConfig));
+        crudTemplatePath = path.resolve(__dirname, "../../templates/model-crud.js.ejs");
+        crudTemplateContent = file_1.renderTemplate(crudTemplatePath, { modelName: modelName });
+        crudFilePath = path.resolve(modelFolderPath, "crud.js");
+        file_1.writeFile(crudFilePath, prettier_1.format(crudTemplateContent, misc_1.prettierConfig));
+        // Update the db root to include model
+        updateDBRootIndex(root, dbRoot);
+        log_1.logSuccess("Successfully generated " + modelName + " model and related files!\n");
+        return [2 /*return*/];
     });
 }); };
 var ensureObjectionConfig = function (root, dbRoot) {

@@ -5,16 +5,15 @@ import { format } from "prettier";
 import { camelCase } from "lodash";
 import { logSuccess } from "../core/log";
 import { pathExists } from "../core/path";
+import { prettierConfig } from "../core/misc";
 import { readFile, renderTemplate, writeFile } from "../core/file";
-import { prettierConfig, readModelDefinitions } from "../core/misc";
 import { createFolder, FolderContent, readFolder } from "../core/folder";
 import { generateDatabaseTableNameFrom, generateModelFolderNameFrom, generateModelNameFrom } from "../core/name";
 
 /** Creates a model file matching the given name with the appropriate code and database helper files */
-export const generate = async (name: string, root: string): Promise<void> => {
+export const generate = async (root: string, dbRoot: string, migrationsRoot: string, name: string): Promise<void> => {
     // Make sure the migrations folder and objection config and root model files exist
-    const { dbRoot, migrations } = await readModelDefinitions(root);
-    createFolder(path.resolve(root, migrations));
+    createFolder(path.resolve(root, migrationsRoot));
     createFolder(path.resolve(root, dbRoot));
     ensureObjectionConfig(root, dbRoot);
     ensureRootModel(root, dbRoot);
@@ -34,7 +33,7 @@ export const generate = async (name: string, root: string): Promise<void> => {
     // Create the migration file for the model
     const migrationTemplatePath = path.resolve(__dirname, "../../templates/model-migration.js.ejs");
     const migrationTemplateContent = renderTemplate(migrationTemplatePath, { databaseTableName });
-    const migrationFilePath = path.resolve(root, migrations, `${moment().format("YYYYMMDDHHmmssSSS")}_create_${databaseTableName}_table.js`);
+    const migrationFilePath = path.resolve(root, migrationsRoot, `${moment().format("YYYYMMDDHHmmssSSS")}_create_${databaseTableName}_table.js`);
     writeFile(migrationFilePath, format(migrationTemplateContent, prettierConfig));
 
     // Create database helper files

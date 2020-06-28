@@ -1,23 +1,29 @@
 const path = require("path");
 const { assert } = require("chai");
 const { destroy, pathExists } = require("../dist/core/path");
+const { readModelDefinitions } = require("../dist/core/misc");
 const { createFolder, readFolder, FolderContent } = require("../dist/core/folder");
 const { generate } = require("../dist/features/generate");
 const { init } = require("../dist/features/init");
 
 describe("Unit tests for generate.ts", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/project");
+    let dbRoot, migrationsRoot;
 
-    before(() => {
+    before(async () => {
         destroy(testRoot);
         createFolder(testRoot);
         init(testRoot);
+
+        const definitions = await readModelDefinitions(testRoot);
+        migrationsRoot = definitions.migrationsRoot;
+        dbRoot = definitions.dbRoot;
     });
 
     it("should generate a model from a name", () => {
         assert.doesNotThrow(async () => {
-            await generate("User", testRoot);
-            await generate("MovementVector", testRoot);
+            await generate(testRoot, dbRoot, migrationsRoot, "User");
+            await generate(testRoot, dbRoot, migrationsRoot, "MovementVector");
         });
     });
 

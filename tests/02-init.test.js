@@ -20,14 +20,14 @@ describe("Unit tests for init.ts", () => {
     it("should verify that model-definitions file exists", async () => {
         const definitions = await readModelDefinitions(testRoot);
         assert.isNotNull(definitions);
-        assert.isNotNull(definitions.models);
-        assert.isNotNull(definitions.relations);
         assert.isNotNull(definitions.dbRoot);
-        assert.equal(Object.prototype.toString.call(definitions.models), "[object Array]");
-        assert.equal(Object.prototype.toString.call(definitions.relations), "[object String]");
+        assert.isNotNull(definitions.relations);
+        assert.isNotNull(definitions.migrationsRoot);
         assert.equal(Object.prototype.toString.call(definitions.dbRoot), "[object String]");
-        assert.equal(definitions.models.length, 0);
-        assert.equal(definitions.relations, "");
+        assert.equal(Object.prototype.toString.call(definitions.relations), "[object Array]");
+        assert.equal(Object.prototype.toString.call(definitions.migrationsRoot), "[object String]");
+        assert.equal(definitions.migrationsRoot, "src/server/migrations");
         assert.equal(definitions.dbRoot, "src/server/services/db");
+        assert.equal(definitions.relations.length, 0);
     });
 });
