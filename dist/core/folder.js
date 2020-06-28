@@ -33,7 +33,7 @@ exports.readFolder = function (path, mode) {
         if (mode === FolderContent.FOLDER)
             return contentStats.isDirectory();
         if (mode === FolderContent.FILE)
-            return contentStats.isDirectory();
+            return !contentStats.isDirectory();
         return true;
     });
 };

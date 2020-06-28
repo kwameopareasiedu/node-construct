@@ -31,7 +31,7 @@ export const readFolder = (path: string, mode = FolderContent.ALL): Array<string
     return folderContents.filter(content => {
         const contentStats = fs.lstatSync(nodePath.join(path, content));
         if (mode === FolderContent.FOLDER) return contentStats.isDirectory();
-        if (mode === FolderContent.FILE) return contentStats.isDirectory();
+        if (mode === FolderContent.FILE) return !contentStats.isDirectory();
         return true;
     });
 };
