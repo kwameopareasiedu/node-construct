@@ -1,34 +1,27 @@
 const path = require("path");
 const { assert } = require("chai");
-const { format } = require("prettier");
-const { writeFile } = require("../dist/core/file");
 const { destroy, pathExists } = require("../dist/core/path");
-const { readModelDefinitions, prettierConfig } = require("../dist/core/misc");
+const { readModelDefinitions } = require("../dist/core/misc");
 const { createFolder, readFolder, FolderContent } = require("../dist/core/folder");
 const { setup } = require("../dist/features/setup");
 const { init } = require("../dist/features/init");
 
 describe("Unit tests for setup.ts", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/project");
-    let dbRoot, migrationsRoot, relations;
+    let dbRoot, migrationsRoot;
 
     before(async () => {
         destroy(testRoot);
         createFolder(testRoot);
         init(testRoot);
 
-        // Modify the model-definitions file to include test relations
-        const testRelations = '[ "User HAS_ONE Profile", "User HAS_MANY [Post, Comment UserSubscriber]", "Post HAS_MANY Comment" ]';
-        const content = `module.exports = { relations: ${testRelations}, dbRoot: "src/server/services/db", migrationsRoot: "src/server/migrations" };`;
-        writeFile(path.resolve(testRoot, "model-definitions.js"), format(content, prettierConfig));
-
         const definitions = await readModelDefinitions(testRoot);
         migrationsRoot = definitions.migrationsRoot;
-        relations = definitions.relations;
         dbRoot = definitions.dbRoot;
     });
 
     it("should setup models from the test relations", () => {
+        const relations = ["User HAS_ONE Profile", "User HAS_MANY [Post, Comment UserSubscriber]", "Post HAS_MANY Comment"];
         assert.doesNotThrow(async () => await setup(testRoot, dbRoot, migrationsRoot, relations));
     });
 
