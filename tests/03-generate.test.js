@@ -1,10 +1,10 @@
 const path = require("path");
 const { assert } = require("chai");
+const { init } = require("../dist/features/init");
+const { generate } = require("../dist/features/generate");
 const { destroy, pathExists } = require("../dist/core/path");
 const { readModelDefinitions } = require("../dist/core/misc");
 const { createFolder, readFolder, FolderContent } = require("../dist/core/folder");
-const { generate } = require("../dist/features/generate");
-const { init } = require("../dist/features/init");
 
 describe("Unit tests for generate.ts", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/project");

@@ -1,12 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.init = void 0;
-var path = require("path");
-var log_1 = require("../core/log");
-var file_1 = require("../core/file");
-/** Creates the model-definitions.js file at the project root */
-exports.init = function (root) {
-    var targetPath = path.resolve(root, "model-definitions.js");
-    file_1.writeFile(targetPath, file_1.readFile(path.resolve(__dirname, "../../templates/model-definitions.js.ejs")));
-    log_1.logSuccess("Model definitions file created!\n");
-};
+/* node-construct@v0.1.0 */
+/* Last compiled on 29-06-2020 08:06:18 */
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.init=void 0;var path=require("path"),log_1=require("../core/log"),file_1=require("../core/file");exports.init=function(e){var i=path.resolve(e,"model-definitions.js");file_1.writeFile(i,file_1.readFile(path.resolve(__dirname,"../../templates/model-definitions.js.ejs"))),log_1.logSuccess("Model definitions file created!\n")};

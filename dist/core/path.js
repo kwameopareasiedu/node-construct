@@ -1,14 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.destroy = exports.pathExists = void 0;
-var fs = require("fs-extra");
-var log_1 = require("./log");
-exports.pathExists = function (path) { return fs.pathExistsSync(path); };
-exports.destroy = function (path) {
-    if (exports.pathExists(path)) {
-        fs.removeSync(path);
-        log_1.logInfo("Deleted - " + path);
-    }
-    else
-        log_1.logWarning("Path does not exist - " + path);
-};
+/* node-construct@v0.1.0 */
+/* Last compiled on 29-06-2020 08:06:18 */
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.destroy=exports.pathExists=void 0;var fs=require("fs-extra"),log_1=require("./log");exports.pathExists=function(e){return fs.pathExistsSync(e)},exports.destroy=function(e){exports.pathExists(e)?(fs.removeSync(e),log_1.logInfo("Deleted - "+e)):log_1.logWarning("Path does not exist - "+e)};

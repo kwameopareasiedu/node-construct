@@ -4,7 +4,7 @@
     "description": "A node-express app constructor",
     "main": "index.js",
     "scripts": {
-        "watch": "tsc -w --preserveWatchOutput",
+        "dev": "grunt",
         "test": "nyc mocha --timeout 10000 --recursive --diff --ui bdd tests/**/*.test.js"
     },
     "keywords": [
@@ -19,6 +19,7 @@
     "dependencies": {
         "chai": "^4.2.0",
         "chalk": "^4.1.0",
+        "commander": "^5.1.0",
         "ejs": "^3.1.3",
         "fs-extra": "^9.0.1",
         "lodash": "^4.17.15",
@@ -45,6 +46,10 @@
         "@typescript-eslint/eslint-plugin": "^3.4.0",
         "@typescript-eslint/parser": "^3.4.0",
         "eslint": "^7.3.1",
+        "grunt": "^1.1.0",
+        "grunt-contrib-uglify": "^4.0.1",
+        "grunt-contrib-watch": "^1.1.0",
+        "grunt-ts": "^6.0.0-beta.22",
         "nyc": "^15.1.0",
         "typescript": "^3.9.5"
     }

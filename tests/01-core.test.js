@@ -1,11 +1,11 @@
 const path = require("path");
 const { assert } = require("chai");
+const { prettierConfig } = require("../dist/core/misc");
 const { destroy, pathExists } = require("../dist/core/path");
 const { createFolder, readFolder } = require("../dist/core/folder");
 const { logSuccess, logWarning, logInfo, logError } = require("../dist/core/log");
 const { createFile, writeFile, readFile, renderTemplate } = require("../dist/core/file");
 const { toHyphenatedCamelCase, generateModelNameFrom, generateModelFolderNameFrom, generateDatabaseTableNameFrom } = require("../dist/core/name");
-const { prettierConfig } = require("../dist/core/misc");
 
 describe("Unit tests for core files", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/core");

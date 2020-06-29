@@ -1,19 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderTemplate = exports.writeFile = exports.readFile = exports.createFile = void 0;
-var ejs = require("ejs");
-var fs = require("fs-extra");
-var log_1 = require("./log");
-exports.createFile = function (path) {
-    fs.ensureFileSync(path);
-    log_1.logInfo("File created - " + path);
-};
-exports.readFile = function (path) { return fs.readFileSync(path, { encoding: "utf-8" }); };
-exports.writeFile = function (path, data) {
-    fs.writeFileSync(path, data || "");
-    log_1.logInfo("File written - " + path);
-};
-exports.renderTemplate = function (path, params) {
-    if (params === void 0) { params = {}; }
-    return ejs.render(exports.readFile(path), params);
-};
+/* node-construct@v0.1.0 */
+/* Last compiled on 29-06-2020 08:06:18 */
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.renderTemplate=exports.writeFile=exports.readFile=exports.createFile=void 0;var ejs=require("ejs"),fs=require("fs-extra"),log_1=require("./log");exports.createFile=function(e){fs.ensureFileSync(e),log_1.logInfo("File created - "+e)},exports.readFile=function(e){return fs.readFileSync(e,{encoding:"utf-8"})},exports.writeFile=function(e,r){fs.writeFileSync(e,r||""),log_1.logInfo("File written - "+e)},exports.renderTemplate=function(e,r){return void 0===r&&(r={}),ejs.render(exports.readFile(e),r)};

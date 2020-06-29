@@ -1,28 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateDatabaseTableNameFrom = exports.generateModelFolderNameFrom = exports.generateModelNameFrom = exports.toHyphenatedCamelCase = void 0;
-var lodash_1 = require("lodash");
-var pluralize = require("pluralize");
-/** Returns a hyphenated camel-cased version of a string. E.g. "hello world" => "Hello-World" */
-exports.toHyphenatedCamelCase = function (str) {
-    return str.split("").reduce(function (word, char) {
-        if (char.toLowerCase() == char)
-            return word + char.trim();
-        // If char is a capital letter and the preceding char is also a capital letter, just concatenate the word and this char
-        if (word && word.slice(-1).toLowerCase() !== word.slice(-1))
-            return word + char;
-        return word + (word ? "-" : "") + char;
-    }, "");
-};
-/** Generates a camel-cased model name from the given string */
-exports.generateModelNameFrom = function (name) {
-    var n = pluralize.singular(exports.toHyphenatedCamelCase(name)).toLowerCase();
-    return n[0].toUpperCase() + lodash_1.camelCase(n).substring(1);
-};
-/** Generates a folder name for the model */
-exports.generateModelFolderNameFrom = function (name) { return pluralize.singular(exports.toHyphenatedCamelCase(name)).toLowerCase(); };
-/** Generates the database table name for this model */
-exports.generateDatabaseTableNameFrom = function (name) {
-    var n = pluralize.singular(exports.toHyphenatedCamelCase(name)).toLowerCase();
-    return pluralize(n).replace(/-/g, "_");
-};
+/* node-construct@v0.1.0 */
+/* Last compiled on 29-06-2020 08:06:18 */
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.generateDatabaseTableNameFrom=exports.generateModelFolderNameFrom=exports.generateModelNameFrom=exports.toHyphenatedCamelCase=void 0;var lodash_1=require("lodash"),pluralize=require("pluralize");exports.toHyphenatedCamelCase=function(e){return e.split("").reduce(function(e,r){return r.toLowerCase()==r?e+r.trim():e&&e.slice(-1).toLowerCase()!==e.slice(-1)?e+r:e+(e?"-":"")+r},"")},exports.generateModelNameFrom=function(e){var r=pluralize.singular(exports.toHyphenatedCamelCase(e)).toLowerCase();return r[0].toUpperCase()+lodash_1.camelCase(r).substring(1)},exports.generateModelFolderNameFrom=function(e){return pluralize.singular(exports.toHyphenatedCamelCase(e)).toLowerCase()},exports.generateDatabaseTableNameFrom=function(e){var r=pluralize.singular(exports.toHyphenatedCamelCase(e)).toLowerCase();return pluralize(r).replace(/-/g,"_")};

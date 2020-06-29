@@ -1,9 +1,9 @@
 const path = require("path");
 const { assert } = require("chai");
 const { destroy } = require("../dist/core/path");
+const { init } = require("../dist/features/init");
 const { createFolder } = require("../dist/core/folder");
 const { readModelDefinitions } = require("../dist/core/misc");
-const { init } = require("../dist/features/init");
 
 describe("Unit tests for init.ts", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/project");

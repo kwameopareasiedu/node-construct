@@ -1,10 +1,10 @@
 const path = require("path");
 const { assert } = require("chai");
+const { init } = require("../dist/features/init");
+const { setup } = require("../dist/features/setup");
 const { destroy, pathExists } = require("../dist/core/path");
 const { readModelDefinitions } = require("../dist/core/misc");
 const { createFolder, readFolder, FolderContent } = require("../dist/core/folder");
-const { setup } = require("../dist/features/setup");
-const { init } = require("../dist/features/init");
 
 describe("Unit tests for setup.ts", () => {
     const testRoot = path.resolve(process.cwd(), "testing-area/project");
