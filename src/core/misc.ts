@@ -3,7 +3,7 @@ import { pathExists } from "./path";
 
 export const readModelDefinitions = async (root: string): Promise<{ relations: ""; dbRoot: string; migrationsRoot: string }> => {
     const modelDefinitionsPath = path.resolve(root, "model-definitions.js");
-    if (!pathExists(modelDefinitionsPath)) throw new Error("Cannot find 'model-definitions.js' config file. Run 'agile-model init' first");
+    if (!pathExists(modelDefinitionsPath)) throw new Error("Cannot find 'model-definitions.js' at project root. Run 'node-construct init' first");
     return await import(modelDefinitionsPath);
 };
 

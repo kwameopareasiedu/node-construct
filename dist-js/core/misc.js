@@ -46,7 +46,7 @@ exports.readModelDefinitions = function (root) { return __awaiter(void 0, void 0
             case 0:
                 modelDefinitionsPath = path.resolve(root, "model-definitions.js");
                 if (!path_1.pathExists(modelDefinitionsPath))
-                    throw new Error("Cannot find 'model-definitions.js' config file. Run 'agile-model init' first");
+                    throw new Error("Cannot find 'model-definitions.js' at project root. Run 'node-construct init' first");
                 return [4, Promise.resolve().then(function () { return require(modelDefinitionsPath); })];
             case 1: return [2, _a.sent()];
         }

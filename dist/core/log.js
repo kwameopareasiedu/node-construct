@@ -1,3 +1,3 @@
 /* node-construct@v0.1.0 */
-/* Last compiled on 29-06-2020 08:06:18 */
+/* Last compiled on 29-06-2020 10:06:39 */
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.logError=exports.logWarning=exports.logSuccess=exports.logInfo=void 0;var chalk=require("chalk"),consoleLog=console.log;exports.logInfo=function(o){return consoleLog(chalk.cyan(o))},exports.logSuccess=function(o){return consoleLog(chalk.green(o))},exports.logWarning=function(o){return consoleLog(chalk.yellow.underline(o))},exports.logError=function(o){return consoleLog(chalk.red.bold(o))};

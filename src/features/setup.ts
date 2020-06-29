@@ -34,11 +34,11 @@ export const setup = async (root: string, dbRoot: string, migrationsRoot: string
             // A circular dependency is formed when a model depends on another, which also depends on the model
             if (!noChecks) {
                 if (modelNamesHaveCircularDependency(source, target)) {
-                    const msg1 = `Circular dependency detected between "${source}" and "${target}". (I.e. "${source}" depends on "${target}" and vice-versa)`;
+                    const msg1 = `Circular dependency detected between "${source}" and "${target}". (I.e. "${source}" depends on "${target}" and vice-versa). `;
                     const msg2 = `If this is desired, run this command with --no-checks or -n`;
                     throw new Error(msg1 + msg2);
                 } else relationGraph.push([source, target, relationType]);
-            }
+            } else relationGraph.push([source, target, relationType]);
 
             if (!names.includes(target)) names.push(target);
         }

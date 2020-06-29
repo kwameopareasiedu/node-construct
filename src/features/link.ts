@@ -15,7 +15,7 @@ export enum RelationType {
     BELONGS_TO_ONE
 }
 
-/** Modifies source codes of target models to create relations between them */
+/** Modifies source codes of source and target models to create relations between them */
 export const link = async (
     root: string,
     dbRoot: string,

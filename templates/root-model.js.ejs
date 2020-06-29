@@ -59,7 +59,7 @@ class RootModel extends Model {
 
     $beforeValidate(jsonSchema, json) {
         for (const key in json) {
-            // For numeric schema keys of the model ,verify that the values are, well, numeric ;)
+            // For numeric keys of the model schema, verify that the values are, well, numeric ;)
             if (Object.prototype.hasOwnProperty.call(json, key)) {
                 if (Number.isNaN(json[key])) throw new Error("NaN Validation Failed!");
             }

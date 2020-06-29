@@ -2,7 +2,8 @@
     "name": "node-construct",
     "version": "0.1.0",
     "description": "A node-express app constructor",
-    "main": "index.js",
+    "main": "bin/index.js",
+    "bin": "bin/index.js",
     "scripts": {
         "dev": "grunt",
         "test": "nyc mocha --timeout 10000 --recursive --diff --ui bdd tests/**/*.test.js"

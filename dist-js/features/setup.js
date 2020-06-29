@@ -83,13 +83,15 @@ exports.setup = function (root, dbRoot, migrationsRoot, relations, noChecks) {
                             var target = targets_1[_i];
                             if (!noChecks) {
                                 if (modelNamesHaveCircularDependency(source, target)) {
-                                    var msg1 = "Circular dependency detected between \"" + source + "\" and \"" + target + "\". (I.e. \"" + source + "\" depends on \"" + target + "\" and vice-versa)";
+                                    var msg1 = "Circular dependency detected between \"" + source + "\" and \"" + target + "\". (I.e. \"" + source + "\" depends on \"" + target + "\" and vice-versa). ";
                                     var msg2 = "If this is desired, run this command with --no-checks or -n";
                                     throw new Error(msg1 + msg2);
                                 }
                                 else
                                     relationGraph.push([source, target, relationType]);
                             }
+                            else
+                                relationGraph.push([source, target, relationType]);
                             if (!names.includes(target))
                                 names.push(target);
                         }
