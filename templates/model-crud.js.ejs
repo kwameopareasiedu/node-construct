@@ -13,12 +13,12 @@ const fetchAll = (graphRelation = "") => {
 
 const fetchById = (id, graphRelation = "") => {
     const <%= modelName %> = require("./index");
-    return <%= modelName %>.query().where({ id }).withGraphFetched(graphRelation);
+    return <%= modelName %>.query().where({ id }).withGraphFetched(graphRelation).first();
 };
 
 const fetchByUuid = (uuid, graphRelation = "") => {
     const <%= modelName %> = require("./index");
-    return <%= modelName %>.query().where({ uuid }).withGraphFetched(graphRelation);
+    return <%= modelName %>.query().where({ uuid }).withGraphFetched(graphRelation).first();
 };
 
 const edit = (uuid, args) => {

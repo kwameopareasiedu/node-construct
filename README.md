@@ -1,5 +1,8 @@
 # node-construct
 
+![](https://img.shields.io/badge/node-12.16.1-green)
+[![Codeship Status for kwameopareasiedu/node-construct](https://app.codeship.com/projects/dda11be0-9f85-0138-80da-5e64375207e7/status?branch=master)](https://app.codeship.com/projects/401769)
+
 This is a tool that handles model creation within your Node project. When invoked, it'll create the
 model file and a database helper file containing commonly used operations (create, read, update and 
 delete). It can also link existing models using one of has-one, has-many and belongs-to-one 

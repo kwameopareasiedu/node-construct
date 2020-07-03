@@ -126,7 +126,7 @@ const generateASTForHasOneRelation = (source: string, target: string) => {
                     value: {
                         type: "MemberExpression",
                         object: { type: "Identifier", name: "RootModel" },
-                        property: { type: "Identifier", name: "HAS_ONE" },
+                        property: { type: "Identifier", name: "HasOneRelation" },
                         computed: false
                     },
                     kind: "init"
@@ -177,7 +177,7 @@ const generateASTForHasManyRelation = (source: string, target: string) => {
                     value: {
                         type: "MemberExpression",
                         object: { type: "Identifier", name: "RootModel" },
-                        property: { type: "Identifier", name: "HAS_MANY" },
+                        property: { type: "Identifier", name: "HasManyRelation" },
                         computed: false
                     },
                     kind: "init"
@@ -228,7 +228,7 @@ const generateASTForBelongsToOneRelation = (source: string, target: string) => {
                     value: {
                         type: "MemberExpression",
                         object: { type: "Identifier", name: "RootModel" },
-                        property: { type: "Identifier", name: "BELONGS_TO_ONE" },
+                        property: { type: "Identifier", name: "BelongsToOneRelation" },
                         computed: false
                     },
                     kind: "init"
