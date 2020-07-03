@@ -19,10 +19,10 @@ This API is simple blog API that has endpoints for the following:
 
 The sections covered in this guide are shown below:
 
-1. [Setup your project](docs/02-setup-project.md)
-2. [Initialize Knex.js](docs/03-initialize-knex.md)
-3. [Initialize node-construct](docs/04-initialize-node-construct.md)
-4. [Finalize models](docs/05-finalize-models.md)
-5. [Setup route handlers for the user model](docs/06-setup-routes-for-user.md)
-6. [Setup route handlers for the post model](docs/07-setup-routes-for-post.md)
-7. [Launch server and test](docs/08-launch-server-and-test.md)
+1. [Setup your project](./02-setup-project.md)
+2. [Initialize Knex.js](./03-initialize-knex.md)
+3. [Initialize node-construct](./04-initialize-node-construct.md)
+4. [Finalize models](./05-finalize-models.md)
+5. [Setup route handlers for the user model](./06-setup-routes-for-user.md)
+6. [Setup route handlers for the post model](./07-setup-routes-for-post.md)
+7. [Launch server and test](./08-launch-server-and-test.md)

@@ -1,4 +1,4 @@
-# # Setup route handlers for the post model
+# Setup route handlers for the post model
 
 Next, we'll setup the route handlers for the user model
 
