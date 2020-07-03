@@ -60,3 +60,9 @@ listed below:
 | `localhost:3000/posts`               | PUT    | Updates the whose `uuid` matches `<uuid>`. `title` and `content` must be present in the request body |
 | `localhost:3000/posts/<uuid>`        | DELETE | Deletes the post whose `uuid` matches `<uuid>`                                                       |
 | `localhost:3000/posts/for-user/<id>` | GET    | Returns a list of all posts in the database for the user with id `<id>`.                             |
+
+<div>
+    <a href="./06-setup-routes-for-user.md">Previous (Setup route handlers for the user model)</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a href="./08-launch-server-and-test.md">Next (Launch server and test)</a>
+</div>

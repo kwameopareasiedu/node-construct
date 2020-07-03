@@ -63,3 +63,9 @@ sure you `knexfile.js` has been setup properly. Refer to the section on
 
 Run the migrations with `knex migrate:latest`. Verify in your database that the fields specified
 have indeed been created.
+
+<div>
+    <a href="./04-initialize-node-construct.md">Previous (Initialize node-construct)</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a href="./06-setup-routes-for-user.md">Next (Setup route handlers for the user model)</a>
+</div>

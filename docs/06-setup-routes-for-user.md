@@ -55,3 +55,9 @@ listed below:
 | `localhost:3000/users/<uuid>` | GET    | Returns the user whose `uuid` matches `<uuid>`                                                       |
 | `localhost:3000/users`        | PUT    | Updates the whose `uuid` matches `<uuid>`. `name` and `username` must be present in the request body |
 | `localhost:3000/users/<uuid>` | DELETE | Deletes the user whose `uuid` matches `<uuid>`                                                       |
+
+<div>
+    <a href="./05-finalize-models.md">Previous (Finalize models)</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a href="./07-setup-routes-for-post.md">Next (Setup route handlers for the post model)</a>
+</div>

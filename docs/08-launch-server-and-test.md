@@ -46,3 +46,7 @@ The requests we will use are listed in the table below:
 | Update post "Node Construct" content to "Simply awesome". Replace `<uuid>` with "Node Construct"'s uuid                     | `curl -X PUT -d "content=Simply%20awesome" localhost=3000/posts/<uuid>`                                              |
 | Get all posts for user. Replace `<id>` with user's id                                                                       | `curl -X GET localhost=3000/posts/for-user/<id>`                                                                     |
 | Delete post "Node Construct". Replace `<uuid>` with "Node Construct"'s uuid                                                 | `curl -X DELETE localhost=3000/posts/<uuid>`                                                                         |
+
+<div>
+    <a href="./07-setup-routes-for-post.md">Previous (Setup route handlers for the post model)</a>
+</div>
