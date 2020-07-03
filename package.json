@@ -1,20 +1,20 @@
 {
     "name": "node-construct",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "A node-express app constructor",
     "main": "bin/index.js",
     "bin": "bin/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kwameopareasiedu/node-construct"
+    },
+    "bugs": {
+        "url": "https://github.com/kwameopareasiedu/node-construct/issues"
+    },
     "scripts": {
         "dev": "grunt",
         "test": "nyc mocha --timeout 10000 --recursive --diff --ui bdd tests/**/*.test.js"
     },
-    "keywords": [
-        "node",
-        "construct",
-        "express",
-        "generate",
-        "generator"
-    ],
     "author": "Kwame Opare Asiedu",
     "license": "MIT",
     "dependencies": {
@@ -57,5 +57,12 @@
     "engines": {
         "node": "12.16.1",
         "npm": "6.14.5"
-    }
+    },
+    "keywords": [
+        "node",
+        "construct",
+        "express",
+        "generate",
+        "generator"
+    ]
 }
