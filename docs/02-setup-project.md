@@ -44,7 +44,8 @@ are using PostgreSQL, run `npm install --save pg`. If you are using MySQL, run
 For more database driver installation commands, visit the
 [Knex.js installation guide](http://knexjs.org/#Installation)
 
-<div class="d-flex" style="display: flex; justify-content: space-between;">
-    <a class="btn btn-secondary btn-sm" href="./01-getting-started.md">Home</a>
+<div>
+    <a href="./01-getting-started.md">Home</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <a href="./03-initialize-knex.md">Next (Initialize Knex.js)</a>
 </div>

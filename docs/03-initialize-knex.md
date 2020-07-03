@@ -31,7 +31,8 @@ The snippet above instructs knex to do a number of things:
    [previous step](02-setup-project.md#setup-a-test-database)
 3. Store created migration files in the `./migrations` folder
 
-<div style="display: flex; justify-content: space-between;">
+<div>
     <a href="./02-setup-project.md">Previous (Setup your project)</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <a href="./04-initialize-node-construct.md">Next (Initialize node-construct)</a>
 </div>

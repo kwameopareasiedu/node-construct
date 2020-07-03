@@ -56,7 +56,8 @@ The `YYYYMMDDHHmmssSSS` is a timestamp placeholder for when the file was created
 -   `ss` - Second (01)
 -   `SSS` - Millisecond (123)
 
-<div style="display: flex; justify-content: space-between;">
+<div>
     <a href="./03-initialize-knex.md">Previous (Initialize Knex.js)</a>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <a href="./05-finalize-models.md">Next (Finalize models)</a>
 </div>
