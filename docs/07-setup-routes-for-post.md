@@ -1,8 +1,7 @@
 # Setup route handlers for the post model
 
-Next, we'll setup the route handlers for the user model
-
-Open the `./routes/posts.js` file and replace its content with:
+Next, we'll setup the route handlers for the post model. This file does not exist so let's create
+if at `./routes/posts.js`, then copy and paste the code below into the file
 
 ```js
 const PostRouter = require("express").Router();
@@ -49,6 +48,16 @@ PostRouter.get("/for-user/:id", async (req, res) => {
 module.exports = PostRouter;
 ```
 
+Next, we register the route hanlders defined here with the application. To do this, open `./app.js`
+and on line **19**, add the following snippet:
+
+```js
+var postsRouter = require("./routes/posts");
+app.use("/posts", postsRouter);
+```
+
+### What did we do here?
+
 What we've done here is specify six (6) route handlers for different types of request. These are
 listed below:
 
@@ -61,14 +70,9 @@ listed below:
 | `localhost:3000/posts/<uuid>`        | DELETE | Deletes the post whose `uuid` matches `<uuid>`                                                       |
 | `localhost:3000/posts/for-user/<id>` | GET    | Returns a list of all posts in the database for the user with id `<id>`.                             |
 
-Next, open `./app.js` and on line **19**, add the following snippet:
-
-```js
-var postsRouter = require("./routes/posts");
-app.use("/posts", postsRouter);
-```
-
 This registers the post route handlers with the Express.js application
+
+---
 
 <div>
     <a href="./06-setup-routes-for-user.md">Previous (Setup route handlers for the user model)</a>

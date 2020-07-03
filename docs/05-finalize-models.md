@@ -2,7 +2,7 @@
 
 To finish our model setup, we need to specify what columns they should have.
 
-### User models
+### 1. Setup table columns for the User model
 
 For users, we'll add a name and a unique username. Open the
 `./migrations/YYYYMMDDHHmmssSSS_create_users_table.js` file and replace its content with:
@@ -27,13 +27,13 @@ The `exports.up` is executed when migrations are being run. In it we have specif
 coumns for the `users` table:
 
 -   `id` - Numeric incrementing id (Created by `table.increments()`)
--   `uuid` - Unique string uuid for the column
+-   `uuid` - Unique uuid string for the column
 -   `name` - Nullable name string
 -   `username` - Non-nullable unique name string
 -   `created_at` - Created at timestamp (Created by `table.timestamps(true, true)`)
 -   `updated_at` - Updated at timestamp (Created by `table.timestamps(true, true)`)
 
-### Post models
+### 2. Setup table columns for the Post model
 
 Just as we did for the user, we'll do for the post. Post will contain the unique title string and
 content text. Open the `./migrations/YYYYMMDDHHmmssSSS_create_posts_table.js` file and replace its
@@ -55,7 +55,7 @@ exports.down = function (knex) {
 };
 ```
 
-### Run migrations on the database
+### 3. Run the migrations on the database
 
 Once all our migrations have been written and verified, we can now run it on our database. Make
 sure you `knexfile.js` has been setup properly. Refer to the section on
@@ -63,6 +63,8 @@ sure you `knexfile.js` has been setup properly. Refer to the section on
 
 Run the migrations with `knex migrate:latest`. Verify in your database that the fields specified
 have indeed been created.
+
+---
 
 <div>
     <a href="./04-initialize-node-construct.md">Previous (Initialize node-construct)</a>
