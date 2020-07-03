@@ -1,4 +1,4 @@
-# Setup Your Project
+# Setup your project
 
 In this section, you'll setup an Express.js project that will be our server
 
@@ -43,3 +43,8 @@ are using PostgreSQL, run `npm install --save pg`. If you are using MySQL, run
 
 For more database driver installation commands, visit the
 [Knex.js installation guide](http://knexjs.org/#Installation)
+
+<div style="display: flex; justify-content: space-between;">
+    <a href="./01-getting-started.md">Home</a>
+    <a href="./03-initialize-knex.md">Next (Initialize Knex.js)</a>
+</div>
