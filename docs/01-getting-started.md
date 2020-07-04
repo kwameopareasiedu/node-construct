@@ -1,7 +1,7 @@
 # Getting Started with node-construct
 
-This guide takes you through using `node-construct` to speed up the creatiuon of a simple API
-server using Express.js.
+This guide takes you through using **node-construct** to speed up the creatiuon of a simple API
+server using [Express.js](https://expressjs.com/).
 
 This API is simple blog API that has endpoints for the following:
 

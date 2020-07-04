@@ -1,13 +1,14 @@
 # Initialize node-construct
 
-To install initialize node-construct, run `npm install -g node-construct && node-construct init`
+### 1. Install node-construct
 
+To install initialize node-construct, run `npm install -g node-construct && node-construct init`.
 This installs node-construct as a global dependency and creates a `model-definitions.js` at the
 root of your project
 
-### Configure node-construct
+### 2. Configure node-construct
 
-Open the `model-definitions.js` and replace the content of the file with what is shown below:
+Open the `model-definitions.js` and replace the content of the file with the following:
 
 ```js
 module.exports = {
@@ -23,21 +24,23 @@ The snippet above instructs node-construct to do a number of things:
    created
 2. Use `./migrations` as the root of generated migration files. **This should be set to the
    same directory as that of Knex.js**
-3. Create two models `User` and `Post` and create a relationship between them where a user
+3. Create two models **User** and **Post** and create a relationship between them where a user
    **can have** many posts. When building the files, node-construct will infer that a post
    therefore **belongs to** a user
 
-### Process configuration
+### 3. Setup the models using the `model-definitions.js`
 
 When your `model-definitions.js` file is configured, run `node-construct setup` to process the
-file and generate the models and migration files (A migration file is a file with code to modify
-the database in some way). After this command is executed, you should see the newly created `./db`
-and `./migrations` folders. You should see the following file paths created:
+setup the models with the specified relationships and migration files (A migration file is a file
+with code to modify the database in some way)
+
+After this command is executed, you should see the newly created `./db` and `./migrations` folders.
+You should see the following file paths created:
 
 -   `./db`
--   `./db/index.js` - Default export
+-   `./db/index.js` - Database helpers export
 -   `./db/cofig.js` - Configuration for the Objection.js ORM
--   `./db/root.js` - The root model which all other models inherit
+-   `./db/root.js` - Root model which all other models inherit. Common model operations should reside here
 -   `./db/user/index.js` - Model file for User
 -   `./db/user/crud.js` - Database helper functions for the User model
 -   `./db/post/index.js` - Model file for Post
@@ -48,13 +51,15 @@ and `./migrations` folders. You should see the following file paths created:
 
 The `YYYYMMDDHHmmssSSS` is a timestamp placeholder for when the file was created.
 
--   `YYYY` - Year (2020)
--   `MM` - Month (07)
--   `DD` - Day (03)
--   `HH` - 24-Hour (15)
--   `mm` - Minute (13)
--   `ss` - Second (01)
--   `SSS` - Millisecond (123)
+-   `YYYY` - Year
+-   `MM` - Month
+-   `DD` - Day
+-   `HH` - 24-Hour
+-   `mm` - Minute
+-   `ss` - Second
+-   `SSS` - Millisecond
+
+---
 
 <div>
     <a href="./03-initialize-knex.md">Previous (Initialize Knex.js)</a>

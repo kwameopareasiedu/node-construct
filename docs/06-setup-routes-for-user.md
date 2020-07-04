@@ -45,6 +45,8 @@ UserRouter.delete("/:uuid", async (req, res) => {
 module.exports = UserRouter;
 ```
 
+### What did we do here?
+
 What we've done here is specify five (5) route handlers for different types of request. These are
 listed below:
 
@@ -55,6 +57,8 @@ listed below:
 | `localhost:3000/users/<uuid>` | GET    | Returns the user whose `uuid` matches `<uuid>`                                                       |
 | `localhost:3000/users`        | PUT    | Updates the whose `uuid` matches `<uuid>`. `name` and `username` must be present in the request body |
 | `localhost:3000/users/<uuid>` | DELETE | Deletes the user whose `uuid` matches `<uuid>`                                                       |
+
+---
 
 <div>
     <a href="./05-finalize-models.md">Previous (Finalize models)</a>
