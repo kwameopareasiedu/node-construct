@@ -4,7 +4,7 @@ module.exports = grunt => {
         ts: { default: { tsconfig: "./tsconfig.json" } },
         uglify: {
             options: {
-                banner: '/* <%= pkg.name %>@v<%= pkg.version %> */\n/* Last compiled on <%= grunt.template.today("dd-mm-yyyy hh:mm:ss") %> */'
+                banner: "/* <%= pkg.name %>@v<%= pkg.version %> */"
             },
             dist: {
                 files: [
@@ -28,4 +28,5 @@ module.exports = grunt => {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.registerTask("default", ["ts", "uglify", "watch"]);
+    grunt.registerTask("build", ["ts", "uglify"]);
 };
