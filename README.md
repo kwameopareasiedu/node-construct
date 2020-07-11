@@ -21,10 +21,16 @@ Migrations created are based on the [Knex.js](http://knexjs.org/) query builder
 
 ## Install
 
-This library is meant to be a global NPM module, so install using
+This library is meant to be a global module, so install using
 
 ```
-npm i -g node-construct
+yarn global add node-construct
+```
+
+or
+
+```
+npm install -g node-construct
 ```
 
 ## Usage
@@ -42,8 +48,8 @@ deploying to the public.
 To run the tests manually, follow these steps:
 
 1.  Clone the project from [Github](https://github.com/kwameopareasiedu/node-construct)
-2.  Run `npm install` to install the project dependencies
-3.  Run `npm test`
+2.  Run `yarn` or `yarn install` to install the project dependencies
+3.  Run `yarn test`
 
 During testing, the root folder is `testing-area/`. All generated files are stored here for your
 perusal

@@ -53,7 +53,7 @@ commander
             const root = process.cwd();
             const { dbRoot, migrationsRoot, relations } = await readModelDefinitions(root);
             await setup(root, dbRoot, migrationsRoot, relations, !checks);
-            // Install knex, object and uuid NPM dependencies when done
+            // Install knex, object and uuid dependencies when done
             execSync("npm i --save knex objection uuid", { stdio: "inherit" });
         } catch (err) {
             logError(err);

@@ -10,16 +10,16 @@ In this section we'll finally launch our server and send some requests to it
 If you are using a **Unix based OS (Linux, Mac)**, you can start the server by running:
 
 ```
-export NODE_ENV=development && npm start
+export NODE_ENV=development && yarn start
 ```
 
 If you are using **Windows**, you can start the server by running:
 
 ```
-set NODE_ENV=development && npm start
+set NODE_ENV=development && yarn start
 ```
 
-What this does is set `NODE_ENV` to _development_ before `npm start` starts the server.
+What this does is set `NODE_ENV` to _development_ before `yarn start` starts the server.
 The server is configured to run on port **3000** by default and is accessbile at
 [localhost:3000](localhost:3000)
 
