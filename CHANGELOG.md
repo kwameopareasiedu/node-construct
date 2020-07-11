@@ -2,6 +2,10 @@
 
 # Changelog
 
+-   `1.0.0`
+
+    -   Stable public release
+
 -   `0.4.0`
 
     -   Modified `setup` to ask the user to select the default package manager to install
