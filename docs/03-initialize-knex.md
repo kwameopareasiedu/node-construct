@@ -6,8 +6,9 @@ JavaScript for all database vendors without writing vendor-specific SQL
 
 ### 1. Install Knex.js
 
-To install Knex.js and initialize knex, run `npm install --save knex && knex init`. This installs
-knex into your project and creates a `knexfile.js` at the root of your project
+To install Knex.js and initialize knex, run `yarn add knex && knex init` or
+`npm install --save knex && knex init`. This installs knex into your project and creates a
+`knexfile.js` at the root of your project
 
 ### 2. Configure knex
 

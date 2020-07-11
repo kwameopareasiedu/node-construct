@@ -1,7 +1,7 @@
 # Setup route handlers for the post model
 
 Next, we'll setup the route handlers for the post model. This file does not exist so let's create
-if at `./routes/posts.js`, then copy and paste the code below into the file
+it at `./routes/posts.js`, then copy and paste the code below into the file
 
 ```js
 const PostRouter = require("express").Router();

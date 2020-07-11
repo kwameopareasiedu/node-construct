@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { prompt } = require("inquirer");
 const commander = require("commander");
 const { execSync } = require("child_process");
 const { logError } = require("../dist/core/log");
@@ -13,12 +14,12 @@ commander.helpOption("-h, --help", "Display this help menu");
 
 commander
     .command("init")
-    .description("Creates the model-definitions.js file at the project root")
+    .description("Create the model-definitions.js file at the project root")
     .action(() => init(process.cwd()));
 
 commander
     .command("generate <name>")
-    .description("Creates a model file matching the given name with the appropriate code and database helper files")
+    .description("Create a model file matching the given name with the appropriate code and database helper files")
     .action(async name => {
         try {
             const root = process.cwd();
@@ -32,7 +33,7 @@ commander
 commander
     .command("link <source> <target>")
     .option("-r, --relation-type <type>", "Relation type. Supported values are HAS_ONE, HAS_MANY, and BELONGS_TO_ONE")
-    .description("Modifies source codes of source and target models to create relations between them")
+    .description("Modify source codes of source and target models to create relations between them")
     .action(async (source, target, { relationType: _relationType }) => {
         try {
             const root = process.cwd();
@@ -47,14 +48,35 @@ commander
 commander
     .command("setup")
     .option("-n, --no-checks", "Skip checks for circular dependencies between models")
-    .description("Processes the model-definitions.js file at the project root and creates the specified models with their relations")
-    .action(async ({ checks }) => {
+    .option("--yarn", "Use Yarn as the default package manager for installing required dependencies")
+    .option("--npm", "Use NPM as the default package manager for installing required dependencies")
+    .description(
+        "Process the model-definitions.js file at the project root and creates the specified models with their relations. " +
+            "Also install dependencies needed for models and migrations to work (I.e. knex, objection and uuid)"
+    )
+    .action(async ({ checks, yarn, npm }) => {
         try {
             const root = process.cwd();
             const { dbRoot, migrationsRoot, relations } = await readModelDefinitions(root);
             await setup(root, dbRoot, migrationsRoot, relations, !checks);
-            // Install knex, object and uuid NPM dependencies when done
-            execSync("npm i --save knex objection uuid", { stdio: "inherit" });
+
+            const packageManager = await (async () => {
+                if (yarn) return "Yarn";
+                if (npm) return "NPM";
+                return prompt([
+                    {
+                        type: "list",
+                        name: "package-manager",
+                        message: "Which package manager would you like to use to install required dependencies? ",
+                        default: "Yarn",
+                        choices: ["Yarn", "NPM"]
+                    }
+                ]).then(ans => ans["package-manager"]);
+            })();
+
+            // Install knex, object and uuid dependencies when done
+            if (packageManager === "Yarn") execSync("yarn add knex objection uuid", { stdio: "inherit" });
+            else if (packageManager === "NPM") execSync("npm i --save knex objection uuid", { stdio: "inherit" });
         } catch (err) {
             logError(err);
         }
