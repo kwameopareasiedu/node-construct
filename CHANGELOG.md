@@ -2,9 +2,16 @@
 
 # Changelog
 
--   `1.0.0`
+-   `0.4.0`
 
-    -   Public release of stable API
+    -   Modified `setup` to ask the user to select the default package manager to install
+        dependencies
+    -   Added `--yarn` flag to `setup` to use Yarn as the default package manager
+    -   Added `--npm` flag to `setup` to use NPM as the default package manager
+
+-   `0.3.3`
+
+    -   Finalization of project features
 
 -   `0.1.0`
 
