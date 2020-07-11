@@ -48,8 +48,8 @@ deploying to the public.
 To run the tests manually, follow these steps:
 
 1.  Clone the project from [Github](https://github.com/kwameopareasiedu/node-construct)
-2.  Run `yarn` or `yarn install` to install the project dependencies
-3.  Run `yarn test`
+2.  Run `yarn`, `yarn install` or `npm install` to install the project dependencies
+3.  Run `yarn test` or `npm test`
 
 During testing, the root folder is `testing-area/`. All generated files are stored here for your
 perusal

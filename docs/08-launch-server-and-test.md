@@ -13,10 +13,22 @@ If you are using a **Unix based OS (Linux, Mac)**, you can start the server by r
 export NODE_ENV=development && yarn start
 ```
 
+or
+
+```
+export NODE_ENV=development && npm start
+```
+
 If you are using **Windows**, you can start the server by running:
 
 ```
 set NODE_ENV=development && yarn start
+```
+
+or
+
+```
+set NODE_ENV=development && npm start
 ```
 
 What this does is set `NODE_ENV` to _development_ before `yarn start` starts the server.

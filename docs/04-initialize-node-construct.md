@@ -2,9 +2,9 @@
 
 ### 1. Install node-construct
 
-To install initialize node-construct, run `yarn global add node-construct && node-construct init`.
-This installs node-construct as a global dependency and creates a `model-definitions.js` at the
-root of your project
+To install initialize node-construct, run `yarn global add node-construct && node-construct init` or
+`npm install -g node-construct && node-construct init`. This installs node-construct as a global
+dependency and creates a `model-definitions.js` at the root of your project
 
 ### 2. Configure node-construct
 
