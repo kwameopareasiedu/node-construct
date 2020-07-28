@@ -61,7 +61,7 @@
         "typescript": "^3.9.6"
     },
     "engines": {
-        "node": "12.18.2"
+        "node": "^12.18.2"
     },
     "keywords": [
         "node",
