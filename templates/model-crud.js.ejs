@@ -6,19 +6,25 @@ const create = (args) => {
     return <%= modelName %>.query().insert(args).returning("*").first();
 };
 
-const fetchAll = (graphRelation = "") => {
+const findAll = (graphRelation = "") => {
     const <%= modelName %> = require("./index");
     return <%= modelName %>.query().withGraphFetched(graphRelation);
 };
 
-const fetchById = (id, graphRelation = "") => {
+const findById = (id, graphRelation = "") => {
     const <%= modelName %> = require("./index");
     return <%= modelName %>.query().where({ id }).withGraphFetched(graphRelation).first();
 };
 
-const fetchByUuid = (uuid, graphRelation = "") => {
+const findByUuid = (uuid, graphRelation = "") => {
     const <%= modelName %> = require("./index");
     return <%= modelName %>.query().where({ uuid }).withGraphFetched(graphRelation).first();
+};
+
+const findWhereConditions = (page = 1, conditions = {}, graphRelation = "", pageSize = 10) => {
+    const <%= modelName %> = require("./index");
+    page = Math.max(0, parseInt(page) - 1);
+    return <%= modelName %>.query().where(conditions).page(parseInt(page), pageSize).orderBy("created_at", "DESC").withGraphFetched(graphRelation);
 };
 
 const edit = (uuid, args) => {
@@ -31,4 +37,4 @@ const destroy = (uuid) => {
     return <%= modelName %>.query().where({ uuid }).del();
 };
 
-module.exports = { create, fetchAll, fetchById, fetchByUuid, edit, destroy };
+module.exports = { create, findAll, findById, findByUuid, findWhereConditions, edit, destroy };
