@@ -16,13 +16,13 @@ PostRouter.post("/", async (req, res) => {
 
 /* GET all posts */
 PostRouter.get("/", async (req, res) => {
-    const posts = await Post.fetchAll();
+    const posts = await Post.findAll();
     return res.json({ data: posts });
 });
 
 /* GET one post */
 PostRouter.get("/:uuid", async (req, res) => {
-    const post = await Post.fetchByUuid(req.params.uuid);
+    const post = await Post.findByUuid(req.params.uuid);
     return res.json({ data: post });
 });
 
@@ -41,7 +41,7 @@ PostRouter.delete("/:uuid", async (req, res) => {
 
 /* GET all posts for user */
 PostRouter.get("/for-user/:id", async (req, res) => {
-    const posts = await Post.fetchAll().where({ user_id: req.params.id });
+    const posts = await Post.findAll().where({ user_id: req.params.id });
     return res.json({ data: posts });
 });
 

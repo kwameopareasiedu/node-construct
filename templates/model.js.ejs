@@ -10,12 +10,13 @@ class <%= modelName %> extends RootModel {
     }
 }
 
-const { create, fetchAll, fetchById, fetchByUuid, edit, destroy } = require("./crud");
+const { create, findAll, findById, findByUuid, findWhereConditions, edit, destroy } = require("./crud");
 
 module.exports = <%= modelName %>;
 module.exports.create = create;
-module.exports.fetchAll = fetchAll;
-module.exports.fetchById = fetchById;
-module.exports.fetchByUuid = fetchByUuid;
+module.exports.findAll = findAll;
+module.exports.findById = findById;
+module.exports.findByUuid = findByUuid;
+module.exports.findWhereConditions = findWhereConditions;
 module.exports.edit = edit;
 module.exports.destroy = destroy;
