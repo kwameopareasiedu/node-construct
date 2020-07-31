@@ -19,13 +19,13 @@ UserRouter.post("/", async (req, res) => {
 
 /* GET all users */
 UserRouter.get("/", async (req, res) => {
-    const users = await User.fetchAll();
+    const users = await User.findAll();
     return res.json({ data: users });
 });
 
 /* GET one user */
 UserRouter.get("/:uuid", async (req, res) => {
-    const user = await User.fetchByUuid(req.params.uuid);
+    const user = await User.findByUuid(req.params.uuid);
     return res.json({ data: user });
 });
 
