@@ -82,7 +82,7 @@ const updateDBRootIndex = (root: string, dbRoot: string): void => {
         value: {
             type: "CallExpression",
             callee: { type: "Identifier", name: "require" },
-            arguments: [{ type: "Literal", value: folder, raw: `"${folder}"` }]
+            arguments: [{ type: "Literal", value: `./${folder}`, raw: `"./${folder}"` }]
         },
         kind: "init"
     }));
